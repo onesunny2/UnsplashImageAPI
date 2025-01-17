@@ -16,9 +16,9 @@ class NetworkingManager {
     
     func callRequest(url: String, completionHandler: @escaping (Data) -> ()) {
         
-        AF.request(url, method: .get).responseString { value in
-            print(value)
-        }
+//        AF.request(url, method: .get).responseString { value in
+//            print(value)
+//        }
         
         AF.request(url, method: .get)
             .validate(statusCode: 200..<500)
