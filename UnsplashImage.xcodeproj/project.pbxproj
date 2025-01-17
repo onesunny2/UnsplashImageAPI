@@ -6,8 +6,15 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		4368038E2D3A32BD0034B934 /* Secret.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 4368038D2D3A32BD0034B934 /* Secret.xcconfig */; };
+		436803922D3A339A0034B934 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 436803912D3A339A0034B934 /* .gitignore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		436803622D3A15740034B934 /* UnsplashImage.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UnsplashImage.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4368038D2D3A32BD0034B934 /* Secret.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secret.xcconfig; sourceTree = "<group>"; };
+		436803912D3A339A0034B934 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -45,6 +52,8 @@
 		436803592D3A15740034B934 = {
 			isa = PBXGroup;
 			children = (
+				436803912D3A339A0034B934 /* .gitignore */,
+				4368038D2D3A32BD0034B934 /* Secret.xcconfig */,
 				436803642D3A15740034B934 /* UnsplashImage */,
 				436803632D3A15740034B934 /* Products */,
 			);
@@ -122,6 +131,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				436803922D3A339A0034B934 /* .gitignore in Resources */,
+				4368038E2D3A32BD0034B934 /* Secret.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,6 +151,7 @@
 /* Begin XCBuildConfiguration section */
 		436803762D3A15760034B934 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4368038D2D3A32BD0034B934 /* Secret.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

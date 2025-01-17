@@ -5,4 +5,12 @@
 //  Created by Lee Wonsun on 1/17/25.
 //
 
-import Foundation
+import UIKit
+
+class NetworkingManager {
+    
+    static let shared = NetworkingManager()
+    private init() {}
+    
+    
+}
