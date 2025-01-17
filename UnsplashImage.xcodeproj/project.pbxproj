@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4368038E2D3A32BD0034B934 /* Secret.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 4368038D2D3A32BD0034B934 /* Secret.xcconfig */; };
 		436803922D3A339A0034B934 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 436803912D3A339A0034B934 /* .gitignore */; };
+		436804322D3A6BD20034B934 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 436804312D3A6BD20034B934 /* Alamofire */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				436804322D3A6BD20034B934 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,6 +89,7 @@
 			);
 			name = UnsplashImage;
 			packageProductDependencies = (
+				436804312D3A6BD20034B934 /* Alamofire */,
 			);
 			productName = UnsplashImage;
 			productReference = 436803622D3A15740034B934 /* UnsplashImage.app */;
@@ -116,6 +119,9 @@
 			);
 			mainGroup = 436803592D3A15740034B934;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				436804302D3A6BD20034B934 /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 436803632D3A15740034B934 /* Products */;
 			projectDirPath = "";
@@ -353,6 +359,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		436804302D3A6BD20034B934 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		436804312D3A6BD20034B934 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 436804302D3A6BD20034B934 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4368035A2D3A15740034B934 /* Project object */;
 }
