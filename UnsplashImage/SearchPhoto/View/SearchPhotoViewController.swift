@@ -60,7 +60,7 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
             
             if self.total == 0 {
                 self.mainView.imageCollectionView.isHidden = true
-                self.mainView.defaultLabel.text = "검색결과가 없어요ㅜㅜ"
+                self.mainView.defaultLabel.text = "검색결과가 없어요(영어만 인식해요!)"
             } else {
                 self.mainView.imageCollectionView.isHidden = false
             }
