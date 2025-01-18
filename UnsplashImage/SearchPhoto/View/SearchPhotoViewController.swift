@@ -33,6 +33,8 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
         
         mainView.imageCollectionView.delegate = self
         mainView.imageCollectionView.dataSource = self
+        
+        mainView.imageCollectionView.isHidden = true
     }
 
     func getPhotoData() {
@@ -52,6 +54,11 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
             
         }
     }
+
+}
+
+// MARK: - searchBar 관련 처리
+extension SearchPhotoViewController {
     
     func configNavigation() {
         navigationItem.title = "사진 검색하기"
@@ -73,7 +80,7 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
     }
 }
 
-
+// MARK: - CollectionView 관리
 extension SearchPhotoViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return resultList.count

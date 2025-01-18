@@ -14,17 +14,18 @@ class SearchPhotoView: BaseView {
     let scrollView = UIScrollView()
     let stackView = UIStackView()
     var imageCollectionView: UICollectionView
+    let defaultLabel = UILabel()
     
     func imageCollectionViewFlowLayout() -> UICollectionViewFlowLayout {
         let sectionInsect: CGFloat = 0
-        let cellSpacing: CGFloat = 2
+        let cellSpacing: CGFloat = 3  // default: 10
         let cellWidth: CGFloat = (UIScreen.main.bounds.width - (sectionInsect * 2 + cellSpacing)) / 2
         
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.itemSize = CGSize(width: cellWidth, height: (cellWidth * 1.5))
         layout.minimumInteritemSpacing = cellSpacing
-        layout.minimumLineSpacing = 2
+        layout.minimumLineSpacing = cellSpacing
         layout.sectionInset = UIEdgeInsets(top: sectionInsect, left: sectionInsect, bottom: sectionInsect, right: sectionInsect)
         
         return layout
@@ -41,6 +42,7 @@ class SearchPhotoView: BaseView {
     
     override func configHierarchy() {
         self.addSubview(imageCollectionView)
+        self.addSubview(defaultLabel)
         self.addSubview(scrollView)
         scrollView.addSubview(stackView)
         self.addSubview(toggle)
@@ -55,6 +57,10 @@ class SearchPhotoView: BaseView {
         stackView.snp.makeConstraints {
             $0.edges.equalTo(scrollView)
             $0.height.equalTo(50)
+        }
+        
+        defaultLabel.snp.makeConstraints {
+            $0.center.equalTo(imageCollectionView)
         }
         
         imageCollectionView.snp.makeConstraints {
@@ -80,6 +86,9 @@ class SearchPhotoView: BaseView {
         stackView.spacing = 10
 
         stackLabel()
+        
+        defaultLabel.text = "사진을 검색해 보세요!"
+        defaultLabel.font = .systemFont(ofSize: 20, weight: .semibold)
         
         imageCollectionView.register(SearchPhotoListCollectionViewCell.self, forCellWithReuseIdentifier: "SearchPhotoListCollectionViewCell")
     }
