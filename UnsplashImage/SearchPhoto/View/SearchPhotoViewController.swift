@@ -73,15 +73,23 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
     }
 }
 
+
 extension SearchPhotoViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return resultList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        let row = resultList[indexPath.row]
        
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SearchPhotoListCollectionViewCell", for: indexPath) as? SearchPhotoListCollectionViewCell else { print("error")
             return UICollectionViewCell() }
+        
+        cell.getImageUrl(url: row.urls.small)
+        
+        let like = row.likes.formatted()
+        cell.getLikeCount(count: String(like))
         
         return cell
     }
