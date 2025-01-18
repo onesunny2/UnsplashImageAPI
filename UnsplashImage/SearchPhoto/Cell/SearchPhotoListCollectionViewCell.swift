@@ -21,7 +21,7 @@ class SearchPhotoListCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = .systemIndigo
+        backgroundColor = .clear
         configImage()
         configLike()
     }
