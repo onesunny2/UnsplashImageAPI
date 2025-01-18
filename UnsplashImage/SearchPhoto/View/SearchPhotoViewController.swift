@@ -11,15 +11,26 @@ import Alamofire
 class SearchPhotoViewController: UIViewController {
     
     let networkManager = NetworkingManager.shared
+    var mainView = SearchPhotoView()
     
     var keyword = "cat"
+    var resultList: [PhotoResult] = []
+    
+    override func loadView() {
+        view = mainView
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .systemIndigo
+        view.backgroundColor = .white
         
         getPhotoData()
+        
+        mainView.imageCollectionView.delegate = self
+        mainView.imageCollectionView.dataSource = self
+        
+        mainView.imageCollectionView.register(SearchPhotoListCollectionViewCell.self, forCellWithReuseIdentifier: "SearchPhotoListCollectionViewCell")
     }
 
     func getPhotoData() {
@@ -33,29 +44,29 @@ class SearchPhotoViewController: UIViewController {
             
             guard let result = try? self.networkManager.decoder.decode(PhotoSearch.self, from: data) else { return print("decoding failed") }
             
-            dump(result)
+            self.resultList = result.results
+            
+            self.mainView.imageCollectionView.reloadData()
             
         }
     }
+}
+
+extension SearchPhotoViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print(resultList.count)
+        return resultList.count
+    }
     
-    /* func callRequest() {
-        guard let apiKey = Bundle.main.apiKey else { return }
-        print(apiKey)
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        print(#function)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SearchPhotoListCollectionViewCell", for: indexPath) as? SearchPhotoListCollectionViewCell else { print("error")
+            return UICollectionViewCell() }
         
-        let url = "https://api.unsplash.com/search/photos?query=\(keyword)&page=1&per_page=20&order_by=latest&color=yellow&client_id=\(apiKey)"
+        print("durl")
         
-        AF.request(url, method: .get)
-            .validate(statusCode: 200..<400)
-            .responseDecodable(of: PhotoSearch.self) { response in
-                
-                switch response.result {
-                case .success(let value):
-                    print(value)
-                case .failure(let error):
-                    print(error)
-                }
-            }
-        
-    } */
+        return cell
+    }
+    
     
 }
