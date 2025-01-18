@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FilterButton: UIButton {
+class ColorButton: UIButton {
     
     
     init(type: Color) {
@@ -19,7 +19,7 @@ class FilterButton: UIButton {
     }
 }
 
-extension FilterButton {
+extension ColorButton {
     
     enum Color: Int, CaseIterable {
         case black
