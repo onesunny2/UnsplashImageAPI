@@ -17,6 +17,7 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
     
     var total = 0
     var keyword = ""
+    var sort = FilterButton.Filter.relevant.labelText
     var resultList: [PhotoResult] = [] {
         didSet {
             print("resultList")
@@ -48,7 +49,7 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
         guard let apiKey = Bundle.main.apiKey else { return }
         print(apiKey)
         
-        let url = "https://api.unsplash.com/search/photos?query=\(keyword)&page=1&per_page=20&order_by=latest&color=yellow&client_id=\(apiKey)"
+        let url = "https://api.unsplash.com/search/photos?query=\(keyword)&page=1&per_page=20&order_by=\(sort)&color=yellow&client_id=\(apiKey)"
    
         networkManager.callRequest(url: url) { data in
             
@@ -70,11 +71,16 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
     func filterButtonTapped(button: UIButton) {
 
         guard let filterButton = button as? FilterButton else { return }
+        
         switch filterButton.filterType {
         case .relevant:
             filterButton.configFilterButton(type: .latest)
+            sort = FilterButton.Filter.latest.orderParameter
+            getPhotoData()
         case .latest:
             filterButton.configFilterButton(type: .relevant)
+            sort = FilterButton.Filter.relevant.orderParameter
+            getPhotoData()
         }
         
     }
