@@ -72,7 +72,7 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
                 self.resultList = result.results
             default:
                 if self.page <= result.total_pages {
-                    self.resultList.append(contentsOf: result.results)
+                    self.resultList += result.results
                     self.isEnd = true
                 } else {
                     break
@@ -118,12 +118,14 @@ extension SearchPhotoViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         
         for item in indexPaths {
-            if resultList.count - 4 == item.row && isEnd == false {
+            if (resultList.count - 4 == item.row) && isEnd == false {
                 page += 1
                 getPhotoData()
             }
-            else if isEnd && (resultList.count - 1 == item.row) {  // 페이지가 마지막임을 인식을 못하는 이유는..?
+            // ❔ prefetching의 특성 상 item.row가 마지막이 되기 전에 이미 감지?를 해서 원하는 딱 마지막에 alert가 안뜨는데 이 시점을 어떻게 맞출 수 있나요?
+            else if isEnd && (resultList.count - 1 == item.row) {
                 print("마지막페이지")
+                alertMessage(message: "마지막 페이지입니다!")
             }
         }
     }
