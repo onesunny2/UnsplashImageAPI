@@ -17,6 +17,7 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
     
     var total = 0
     var keyword = ""
+    var page = 1
     var sort = FilterButton.Filter.relevant.labelText
     var resultList: [PhotoResult] = [] {
         didSet {
@@ -38,6 +39,7 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
         
         mainView.imageCollectionView.delegate = self
         mainView.imageCollectionView.dataSource = self
+        mainView.imageCollectionView.prefetchDataSource = self
         
         mainView.imageCollectionView.isHidden = true
         
@@ -49,13 +51,12 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
         guard let apiKey = Bundle.main.apiKey else { return }
         print(apiKey)
         
-        let url = "https://api.unsplash.com/search/photos?query=\(keyword)&page=1&per_page=20&order_by=\(sort)&color=yellow&client_id=\(apiKey)"
+        let url = "https://api.unsplash.com/search/photos?query=\(keyword)&page=\(page)&per_page=20&order_by=\(sort)&client_id=\(apiKey)"
    
         networkManager.callRequest(url: url) { data in
             
             guard let result = try? self.networkManager.decoder.decode(PhotoSearch.self, from: data) else { return print("decoding failed") }
-            
-            self.resultList = result.results
+
             self.total = result.total
             
             if self.total == 0 {
@@ -63,6 +64,13 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
                 self.mainView.defaultLabel.text = "검색결과가 없어요(영어만 인식해요!)"
             } else {
                 self.mainView.imageCollectionView.isHidden = false
+            }
+            
+            switch self.page {
+            case 1:
+                self.resultList = result.results
+            default:
+                self.resultList.append(contentsOf: result.results)
             }
         }
     }
@@ -76,17 +84,38 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
         case .relevant:
             filterButton.configFilterButton(type: .latest)
             sort = FilterButton.Filter.latest.orderParameter
-            getPhotoData()
-            mainView.imageCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
+            removeList()
         case .latest:
             filterButton.configFilterButton(type: .relevant)
             sort = FilterButton.Filter.relevant.orderParameter
-            getPhotoData()
-            mainView.imageCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
+            removeList()
         }
         
     }
+    
+    func removeList() {
+        resultList.removeAll()
+        getPhotoData()
+        DispatchQueue.main.async {
+            if self.resultList.count != 0 {
+                self.mainView.imageCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
+            }
+        }
+    }
 
+}
+
+// MARK: - Prefetching
+extension SearchPhotoViewController: UICollectionViewDataSourcePrefetching {
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        
+        for item in indexPaths {
+            if resultList.count - 4 == item.row {
+                page += 1
+                getPhotoData()
+            }
+        }
+    }
 }
 
 // MARK: - searchBar 관련 처리
@@ -106,8 +135,6 @@ extension SearchPhotoViewController {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         view.endEditing(true)
     }
-    
-    
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         view.endEditing(true)
@@ -142,6 +169,4 @@ extension SearchPhotoViewController: UICollectionViewDelegate, UICollectionViewD
         
         return cell
     }
-    
-    
 }
