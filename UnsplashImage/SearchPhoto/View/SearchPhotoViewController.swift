@@ -15,9 +15,10 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
     let networkManager = NetworkingManager.shared
     var mainView = SearchPhotoView()
     
-    var total = 0
-    var keyword = ""
-    var page = 1
+    private var total = 0
+    private var keyword = ""
+    private var page = 1
+    private var isEnd = false
     var sort = FilterButton.Filter.relevant.labelText
     var resultList: [PhotoResult] = [] {
         didSet {
@@ -51,7 +52,7 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
         guard let apiKey = Bundle.main.apiKey else { return }
         print(apiKey)
         
-        let url = "https://api.unsplash.com/search/photos?query=\(keyword)&page=\(page)&per_page=20&order_by=\(sort)&client_id=\(apiKey)"
+        let url = "https://api.unsplash.com/search/photos?query=\(keyword)&page=\(page)&per_page=20&order_by=\(sort)&color=black&client_id=\(apiKey)"
    
         networkManager.callRequest(url: url) { data in
             
@@ -70,7 +71,12 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
             case 1:
                 self.resultList = result.results
             default:
-                self.resultList.append(contentsOf: result.results)
+                if self.page <= result.total_pages {
+                    self.resultList.append(contentsOf: result.results)
+                    self.isEnd = true
+                } else {
+                    break
+                }
             }
         }
     }
@@ -82,10 +88,12 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
         
         switch filterButton.filterType {
         case .relevant:
+            page = 1
             filterButton.configFilterButton(type: .latest)
             sort = FilterButton.Filter.latest.orderParameter
             removeList()
         case .latest:
+            page = 1
             filterButton.configFilterButton(type: .relevant)
             sort = FilterButton.Filter.relevant.orderParameter
             removeList()
@@ -110,9 +118,12 @@ extension SearchPhotoViewController: UICollectionViewDataSourcePrefetching {
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         
         for item in indexPaths {
-            if resultList.count - 4 == item.row {
+            if resultList.count - 4 == item.row && isEnd == false {
                 page += 1
                 getPhotoData()
+            }
+            else if isEnd && (resultList.count - 1 == item.row) {  // 페이지가 마지막임을 인식을 못하는 이유는..?
+                print("마지막페이지")
             }
         }
     }
