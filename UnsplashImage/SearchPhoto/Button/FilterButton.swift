@@ -10,20 +10,24 @@ import UIKit
 class FilterButton: UIButton {
     
     var config = UIButton.Configuration.filled()
+    var filterType: Filter
     
-    init(type: Filter = .relevant) {
+    init(filterType: Filter = .relevant) {
+        self.filterType = .relevant
         super.init(frame: .zero)
         
         configFilterButton()
     }
     
-    func configFilterButton() {
+    func configFilterButton(type: Filter = .relevant) {
         
         let contaier = AttributeContainer().font(.systemFont(ofSize: 15, weight: .bold))
         
+        filterType = type
+        
         config.image = UIImage(systemName: "list.bullet")
         config.imagePadding = 5
-        config.attributedTitle = AttributedString(Filter.relevant.labelText, attributes: contaier)
+        config.attributedTitle = AttributedString(type.labelText, attributes: contaier)
         config.cornerStyle = .capsule
         config.baseForegroundColor = .label
         config.baseBackgroundColor = .systemBackground

@@ -39,6 +39,8 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
         mainView.imageCollectionView.dataSource = self
         
         mainView.imageCollectionView.isHidden = true
+        
+        mainView.toggle.addTarget(self, action: #selector(filterButtonTapped), for: .touchUpInside)
     }
 
     func getPhotoData() {
@@ -62,6 +64,19 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
                 self.mainView.imageCollectionView.isHidden = false
             }
         }
+    }
+    
+    @objc
+    func filterButtonTapped(button: UIButton) {
+
+        guard let filterButton = button as? FilterButton else { return }
+        switch filterButton.filterType {
+        case .relevant:
+            filterButton.configFilterButton(type: .latest)
+        case .latest:
+            filterButton.configFilterButton(type: .relevant)
+        }
+        
     }
 
 }
