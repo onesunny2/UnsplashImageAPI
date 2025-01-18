@@ -37,15 +37,6 @@ class FilterButton: UIButton {
         self.configuration = config
     }
     
-    func switchTitle() {
-        
-        let contaier = AttributeContainer().font(.systemFont(ofSize: 15, weight: .bold))
-        let title = (Filter.relevant.labelText == self.currentTitle) ? Filter.latest.labelText : Filter.relevant.labelText
-        
-        config.attributedTitle = AttributedString(title, attributes: contaier)
-    }
-    
-    
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
