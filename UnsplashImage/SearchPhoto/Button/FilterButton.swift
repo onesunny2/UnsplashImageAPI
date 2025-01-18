@@ -22,6 +22,7 @@ class FilterButton: UIButton {
         let contaier = AttributeContainer().font(.systemFont(ofSize: 15, weight: .bold))
         
         config.image = UIImage(systemName: "list.bullet")
+        config.imagePadding = 5
         config.attributedTitle = AttributedString(Filter.relevant.labelText, attributes: contaier)
         config.cornerStyle = .capsule
         config.baseForegroundColor = .label

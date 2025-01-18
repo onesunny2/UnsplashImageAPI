@@ -17,23 +17,23 @@ class TabBarController: UITabBarController {
     }
     
     func configureTabBarController() {
-        let firstVc = TopicPhotoViewController()
+        let firstVc = UINavigationController(rootViewController: TopicPhotoViewController())
         firstVc.tabBarItem.title = ""
         firstVc.tabBarItem.image = UIImage(systemName: "folder")
         firstVc.tabBarItem.selectedImage = UIImage(systemName: "folder.fill")
         
         
-        let secondVc = SecondViewController()
+        let secondVc = UINavigationController(rootViewController: SecondViewController())
         secondVc.tabBarItem.title = ""
         secondVc.tabBarItem.image = UIImage(systemName: "star")
         secondVc.tabBarItem.selectedImage = UIImage(systemName: "star.fill")
         
-        let thirdVc = SearchPhotoViewController()
+        let thirdVc = UINavigationController(rootViewController: SearchPhotoViewController())
         thirdVc.tabBarItem.title = ""
         thirdVc.tabBarItem.image = UIImage(systemName: "magnifyingglass.circle")
         thirdVc.tabBarItem.selectedImage = UIImage(systemName: "magnifyingglass.circle.fill")
         
-        let fourthVc = LikePhotoViewController()
+        let fourthVc = UINavigationController(rootViewController: LikePhotoViewController())
         fourthVc.tabBarItem.title = ""
         fourthVc.tabBarItem.image = UIImage(systemName: "heart")
         fourthVc.tabBarItem.selectedImage = UIImage(systemName: "heart.fill")

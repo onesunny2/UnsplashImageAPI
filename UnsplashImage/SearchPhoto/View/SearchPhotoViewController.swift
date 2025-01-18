@@ -8,7 +8,9 @@
 import UIKit
 import Alamofire
 
-class SearchPhotoViewController: UIViewController {
+class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearchControllerDelegate {
+    
+    let searchController = UISearchController(searchResultsController: nil)  // 서치바는 BaseView를 토대로 그려지지 못함. ❔NavigationController는 VC에 연결하는 컨트롤러라서 뷰컨에서 그리고 설정해야하는건가?
     
     let networkManager = NetworkingManager.shared
     var mainView = SearchPhotoView()
@@ -25,12 +27,12 @@ class SearchPhotoViewController: UIViewController {
 
         view.backgroundColor = .white
         
+        configNavigation()
+        
         getPhotoData()
         
         mainView.imageCollectionView.delegate = self
         mainView.imageCollectionView.dataSource = self
-        
-        mainView.imageCollectionView.register(SearchPhotoListCollectionViewCell.self, forCellWithReuseIdentifier: "SearchPhotoListCollectionViewCell")
     }
 
     func getPhotoData() {
@@ -50,20 +52,36 @@ class SearchPhotoViewController: UIViewController {
             
         }
     }
+    
+    func configNavigation() {
+        navigationItem.title = "사진 검색하기"
+        navigationController?.navigationBar.tintColor = .label
+        
+        searchController.delegate = self
+        searchController.searchBar.delegate = self
+        searchController.searchBar.placeholder = "키워드 검색"
+        searchController.searchBar.searchBarStyle = .minimal
+        navigationItem.searchController = searchController
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        view.endEditing(true)
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        view.endEditing(true)
+    }
 }
 
 extension SearchPhotoViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print(resultList.count)
         return resultList.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        print(#function)
+       
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SearchPhotoListCollectionViewCell", for: indexPath) as? SearchPhotoListCollectionViewCell else { print("error")
             return UICollectionViewCell() }
-        
-        print("durl")
         
         return cell
     }

@@ -9,8 +9,7 @@ import UIKit
 import SnapKit
 
 class SearchPhotoView: BaseView {
-    
-    let searchController = UISearchController()
+
     let toggle = FilterButton()
     let scrollView = UIScrollView()
     let stackView = UIStackView()
@@ -38,11 +37,6 @@ class SearchPhotoView: BaseView {
         super.init(frame: frame)
         
         imageCollectionView.collectionViewLayout = imageCollectionViewFlowLayout()
-        self.naviItem.title = "사진 검색하기"
-        self.naviBar.tintColor = .label
-        self.naviBar.standardAppearance = .init()
-        
-       
     }
     
     override func configHierarchy() {
@@ -70,8 +64,8 @@ class SearchPhotoView: BaseView {
         }
         
         toggle.snp.makeConstraints {
-            $0.top.equalTo(scrollView.snp.top).inset(10)
-            $0.bottom.equalTo(scrollView.snp.bottom).inset(10)
+            $0.top.equalTo(scrollView.snp.top).inset(5)
+            $0.bottom.equalTo(scrollView.snp.bottom).inset(5)
             $0.trailing.equalTo(self.safeAreaLayoutGuide)
             $0.width.equalTo(100)
         }
@@ -84,18 +78,10 @@ class SearchPhotoView: BaseView {
         
         stackView.axis = .horizontal
         stackView.spacing = 10
-        
-        configSearchbar()
+
         stackLabel()
         
-//        imageCollectionView.register(SearchPhotoListCollectionViewCell.self, forCellWithReuseIdentifier: "SearchPhotoListCollectionViewCell")
-    }
-    
-    func configSearchbar() {
-        self.naviItem.searchController = searchController
-        self.naviItem.hidesSearchBarWhenScrolling = true
-        searchController.searchBar.placeholder = "키워드 검색"
-        searchController.searchBar.searchBarStyle = .minimal
+        imageCollectionView.register(SearchPhotoListCollectionViewCell.self, forCellWithReuseIdentifier: "SearchPhotoListCollectionViewCell")
     }
     
     func stackLabel() {

@@ -11,6 +11,9 @@ class SearchPhotoListCollectionViewCell: UICollectionViewCell {
     
     static let id = "SearchPhotoListCollectionViewCell"
     
+    let thumImage = UIImageView()
+    
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
