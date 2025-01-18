@@ -12,7 +12,7 @@ class FilterButton: UIButton {
     var config = UIButton.Configuration.filled()
     var filterType: Filter
     
-    init(filterType: Filter = .relevant) {
+    init() {
         self.filterType = .relevant
         super.init(frame: .zero)
         

@@ -77,10 +77,12 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
             filterButton.configFilterButton(type: .latest)
             sort = FilterButton.Filter.latest.orderParameter
             getPhotoData()
+            mainView.imageCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
         case .latest:
             filterButton.configFilterButton(type: .relevant)
             sort = FilterButton.Filter.relevant.orderParameter
             getPhotoData()
+            mainView.imageCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
         }
         
     }
