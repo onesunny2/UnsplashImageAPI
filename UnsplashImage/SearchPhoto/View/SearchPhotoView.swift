@@ -41,8 +41,8 @@ class SearchPhotoView: BaseView {
     }
     
     override func configHierarchy() {
-        self.addSubview(imageCollectionView)
         self.addSubview(defaultLabel)
+        self.addSubview(imageCollectionView)
         self.addSubview(scrollView)
         scrollView.addSubview(stackView)
         self.addSubview(toggle)

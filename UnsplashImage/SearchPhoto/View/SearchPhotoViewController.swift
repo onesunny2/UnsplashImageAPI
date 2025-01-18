@@ -15,8 +15,14 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
     let networkManager = NetworkingManager.shared
     var mainView = SearchPhotoView()
     
-    var keyword = "cat"
-    var resultList: [PhotoResult] = []
+    var total = 0
+    var keyword = ""
+    var resultList: [PhotoResult] = [] {
+        didSet {
+            print("resultList")
+            mainView.imageCollectionView.reloadData()
+        }
+    }
     
     override func loadView() {
         view = mainView
@@ -28,8 +34,6 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
         view.backgroundColor = .white
         
         configNavigation()
-        
-        getPhotoData()
         
         mainView.imageCollectionView.delegate = self
         mainView.imageCollectionView.dataSource = self
@@ -49,9 +53,14 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
             guard let result = try? self.networkManager.decoder.decode(PhotoSearch.self, from: data) else { return print("decoding failed") }
             
             self.resultList = result.results
+            self.total = result.total
             
-            self.mainView.imageCollectionView.reloadData()
-            
+            if self.total == 0 {
+                self.mainView.imageCollectionView.isHidden = true
+                self.mainView.defaultLabel.text = "검색결과가 없어요ㅜㅜ"
+            } else {
+                self.mainView.imageCollectionView.isHidden = false
+            }
         }
     }
 
@@ -75,8 +84,18 @@ extension SearchPhotoViewController {
         view.endEditing(true)
     }
     
+    
+    
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         view.endEditing(true)
+        
+        mainView.imageCollectionView.isHidden = false
+        
+        guard let text = searchBar.text else { return }
+        
+        keyword = text
+        getPhotoData()
+
     }
 }
 
