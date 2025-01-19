@@ -41,7 +41,6 @@ class TopicPhotoViewController: UIViewController {
         navigationItem.title = "돌려돌려 랜덤 TOPIC"
         
         threeTopics = Array(Topic.allCases.shuffled().prefix(3))
-        print(threeTopics)
         
         for index in 0...2 {
             getImageData(topicQuery: threeTopics[index].queryParameter)
@@ -64,16 +63,10 @@ class TopicPhotoViewController: UIViewController {
             switch topicQuery {
             case self.threeTopics[0].queryParameter:
                 self.firstList = Array(result.prefix(10))
-                print("1", self.firstList.count)
-//                print("1", self.firstList)
             case self.threeTopics[1].queryParameter:
                 self.secondList = Array(result.prefix(10))
-                print("2", self.secondList.count)
-//                print("2", self.secondList)
             case self.threeTopics[2].queryParameter:
                 self.thirdList = Array(result.prefix(10))
-                print("3", self.thirdList.count)
-//                print("3", self.thirdList)
             default:
                 print("default")
                 break
@@ -116,8 +109,7 @@ extension TopicPhotoViewController: UICollectionViewDelegate, UICollectionViewDa
         case self.mainView.firstCollectionView:
             
             let row = firstList[indexPath.row]
-            
-            print("1", firstList.count)
+
             cell.configCell(corner: 15)
             cell.getImageUrl(url: row.urls.small)
             
@@ -128,8 +120,7 @@ extension TopicPhotoViewController: UICollectionViewDelegate, UICollectionViewDa
             
         case self.mainView.secondCollectionView:
             let row = secondList[indexPath.row]
-            
-            print("2", secondList.count)
+
             cell.configCell(corner: 15)
             cell.getImageUrl(url: row.urls.small)
             
@@ -140,8 +131,7 @@ extension TopicPhotoViewController: UICollectionViewDelegate, UICollectionViewDa
             
         case self.mainView.thirdCollectionView:
             let row = thirdList[indexPath.row]
-            
-            print("3", thirdList.count)
+
             cell.configCell(corner: 15)
             cell.getImageUrl(url: row.urls.small)
             
