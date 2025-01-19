@@ -34,16 +34,10 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         
         configNavigation()
-        
-        mainView.imageCollectionView.delegate = self
-        mainView.imageCollectionView.dataSource = self
-        mainView.imageCollectionView.prefetchDataSource = self
-        
-        mainView.imageCollectionView.isHidden = true
-        
+        setCollectionView()
         mainView.toggle.addTarget(self, action: #selector(filterButtonTapped), for: .touchUpInside)
     }
 
@@ -104,6 +98,10 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
     func removeList() {
         resultList.removeAll()
         getPhotoData()
+        scrollUp()
+    }
+    
+    func scrollUp() {
         DispatchQueue.main.async {
             if self.resultList.count != 0 {
                 self.mainView.imageCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
@@ -137,6 +135,7 @@ extension SearchPhotoViewController {
     func configNavigation() {
         navigationItem.title = "사진 검색하기"
         navigationController?.navigationBar.tintColor = .label
+        navigationItem.backButtonTitle = ""
         
         searchController.delegate = self
         searchController.searchBar.delegate = self
@@ -156,14 +155,29 @@ extension SearchPhotoViewController {
         
         guard let text = searchBar.text else { return }
         
-        keyword = text
-        getPhotoData()
+        switch resultList.count {
+        case 0:
+            keyword = text
+            getPhotoData()
+        default:
+            page = 1
+            keyword = text
+            removeList()
+        }
 
     }
 }
 
 // MARK: - CollectionView 관리
 extension SearchPhotoViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func setCollectionView() {
+        mainView.imageCollectionView.delegate = self
+        mainView.imageCollectionView.dataSource = self
+        mainView.imageCollectionView.prefetchDataSource = self
+        mainView.imageCollectionView.isHidden = true
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return resultList.count
     }
@@ -181,5 +195,23 @@ extension SearchPhotoViewController: UICollectionViewDelegate, UICollectionViewD
         cell.getLikeCount(count: String(like))
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let row = resultList[indexPath.row]
+        
+        print(row.user.name)
+        print(row.user.profile.medium)
+        
+        let vc = SearchPhotoDetailViewController()
+        navigationController?.pushViewController(vc, animated: true)
+        vc.userId = row.id
+        vc.userImage = row.user.profile.medium
+        vc.userName = row.user.name
+        vc.uploadDate = row.uploadDate
+        vc.mainImage = row.urls.small
+        vc.width = row.width
+        vc.height = row.height
     }
 }
