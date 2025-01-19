@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 import SnapKit
 
 class BaseDetailView: BaseView {
@@ -61,6 +62,8 @@ class BaseDetailView: BaseView {
         super.layoutSubviews()
         
         // 프로필사진 cornerRadious 처리
+        userImageView.layer.cornerRadius = userImageView.frame.width / 2
+        userImageView.clipsToBounds = true
     }
     
     override func configHierarchy() {
@@ -155,8 +158,35 @@ class BaseDetailView: BaseView {
     }
     
     override func configView() {
-        <#code#>
+        userNameLabel.detailLabel(text: "", size: 15, weight: .medium)
+        uploadDateLabel.detailLabel(text: "", size: 13, weight: .semibold)
+        
+        infoLabel.detailLabel(text: "정보", size: 20, weight: .black)
+        sizeLabel.detailLabel(text: "크기", size: 18, weight: .bold)
+        sizeDetailLabel.detailLabel(text: "", alignment: .right, size: 17, weight: .regular)
+        viewCountLabel.detailLabel(text: "조회수", size: 18, weight: .bold)
+        viewCountDatailLabel.detailLabel(text: "", alignment: .right, size: 17, weight: .regular)
+        downloadLabel.detailLabel(text: "다운로드", size: 18, weight: .bold)
+        downloadDetailLabel.detailLabel(text: "", alignment: .right, size: 17, weight: .regular)
     }
     
-
+    func getImageUrl(user: String, thum: String) {
+        let userProcessor = DownsamplingImageProcessor(size: CGSize(width: userImageView.frame.width, height: userImageView.frame.height))
+        
+        userImageView.kf.setImage(with: URL(string: user),
+                                  options: [
+                                    .processor(userProcessor),
+                                    .scaleFactor(UIScreen.main.scale),
+                                    .cacheOriginalImage
+                                  ])
+        
+        let imageProcessor = DownsamplingImageProcessor(size: CGSize(width: mainImageView.frame.width, height: mainImageView.frame.height))
+        
+        mainImageView.kf.setImage(with: URL(string: thum),
+                                  options: [
+                                    .processor(imageProcessor),
+                                    .scaleFactor(UIScreen.main.scale),
+                                    .cacheOriginalImage
+                                  ])
+    }
 }
