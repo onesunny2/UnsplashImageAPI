@@ -190,11 +190,14 @@ extension SearchPhotoViewController: UICollectionViewDelegate, UICollectionViewD
         
         let row = resultList[indexPath.row]
         
+        print(row.user.name)
+        print(row.user.profile.medium)
+        
         let vc = SearchPhotoDetailViewController()
         navigationController?.pushViewController(vc, animated: true)
         vc.userId = row.id
         vc.userImage = row.user.profile.medium
-        vc.userImage = row.user.name
+        vc.userName = row.user.name
         vc.uploadDate = row.uploadDate
         vc.mainImage = row.urls.small
     }

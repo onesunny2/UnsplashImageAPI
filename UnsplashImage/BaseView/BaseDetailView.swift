@@ -16,7 +16,7 @@ class BaseDetailView: BaseView {
     lazy var userStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.alignment = .center
+        stackView.alignment = .leading
         
         return stackView
     }()
@@ -96,7 +96,7 @@ class BaseDetailView: BaseView {
         
         userImageView.snp.makeConstraints {
             $0.top.leading.equalToSuperview().inset(16)
-            $0.size.equalTo(30)
+            $0.size.equalTo(40)
         }
         
         userStackView.snp.makeConstraints {
@@ -109,6 +109,7 @@ class BaseDetailView: BaseView {
         mainImageView.snp.makeConstraints {
             $0.top.equalTo(userImageView.snp.bottom).offset(16)
             $0.horizontalEdges.equalToSuperview()
+            $0.height.equalTo(300)
         }
         
         infoLabel.snp.makeConstraints {
@@ -158,7 +159,7 @@ class BaseDetailView: BaseView {
     }
     
     override func configView() {
-        userNameLabel.detailLabel(text: "", size: 15, weight: .medium)
+        userNameLabel.detailLabel(text: "", size: 15, weight: .regular)
         uploadDateLabel.detailLabel(text: "", size: 13, weight: .semibold)
         infoLabel.detailLabel(text: "정보", size: 20, weight: .black)
         sizeLabel.detailLabel(text: "크기", size: 18, weight: .bold)
@@ -167,6 +168,8 @@ class BaseDetailView: BaseView {
         viewCountDatailLabel.detailLabel(text: "", alignment: .right, size: 17, weight: .regular)
         downloadLabel.detailLabel(text: "다운로드", size: 18, weight: .bold)
         downloadDetailLabel.detailLabel(text: "", alignment: .right, size: 17, weight: .regular)
+        mainImageView.contentMode = .scaleAspectFill
+        userImageView.contentMode = .scaleAspectFill
     }
     
     func getImageUrl(user: String, thum: String) {
