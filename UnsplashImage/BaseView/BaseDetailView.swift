@@ -65,6 +65,7 @@ class BaseDetailView: BaseView {
         // 프로필사진 cornerRadious 처리
         userImageView.layer.cornerRadius = userImageView.frame.width / 2
         userImageView.clipsToBounds = true
+        mainImageView.clipsToBounds = true
     }
     
     override func configHierarchy() {
