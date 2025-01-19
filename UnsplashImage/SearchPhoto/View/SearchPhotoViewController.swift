@@ -34,16 +34,10 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         
         configNavigation()
-        
-        mainView.imageCollectionView.delegate = self
-        mainView.imageCollectionView.dataSource = self
-        mainView.imageCollectionView.prefetchDataSource = self
-        
-        mainView.imageCollectionView.isHidden = true
-        
+        setCollectionView()
         mainView.toggle.addTarget(self, action: #selector(filterButtonTapped), for: .touchUpInside)
     }
 
@@ -137,6 +131,7 @@ extension SearchPhotoViewController {
     func configNavigation() {
         navigationItem.title = "사진 검색하기"
         navigationController?.navigationBar.tintColor = .label
+        navigationController?.navigationItem.backButtonTitle = ""
         
         searchController.delegate = self
         searchController.searchBar.delegate = self
@@ -164,6 +159,14 @@ extension SearchPhotoViewController {
 
 // MARK: - CollectionView 관리
 extension SearchPhotoViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func setCollectionView() {
+        mainView.imageCollectionView.delegate = self
+        mainView.imageCollectionView.dataSource = self
+        mainView.imageCollectionView.prefetchDataSource = self
+        mainView.imageCollectionView.isHidden = true
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return resultList.count
     }
