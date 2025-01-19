@@ -34,7 +34,7 @@ class SearchPhotoDetailViewController: UIViewController {
         // TODO: navigation Appearance
         
         mainView.userNameLabel.text = userName
-        mainView.uploadDateLabel.text = uploadDate
+        mainView.uploadDateLabel.text = uploadDate.changeDate()
         mainView.getImageUrl(user: userImage, thum: mainImage)
         mainView.sizeDetailLabel.text = String(width.formatted()) + " x " + String(height.formatted())
 
