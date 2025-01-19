@@ -131,7 +131,7 @@ extension SearchPhotoViewController {
     func configNavigation() {
         navigationItem.title = "사진 검색하기"
         navigationController?.navigationBar.tintColor = .label
-        navigationController?.navigationItem.backButtonTitle = ""
+        navigationItem.backButtonTitle = ""
         
         searchController.delegate = self
         searchController.searchBar.delegate = self

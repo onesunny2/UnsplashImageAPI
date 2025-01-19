@@ -28,6 +28,8 @@ class SearchPhotoDetailViewController: UIViewController {
 
         view.backgroundColor = .systemBackground
         
+        // TODO: navigation Appearance
+        
         mainView.userNameLabel.text = userName
         mainView.uploadDateLabel.text = uploadDate
         mainView.getImageUrl(user: userImage, thum: mainImage)
@@ -36,6 +38,10 @@ class SearchPhotoDetailViewController: UIViewController {
     }
     
     func getInfoData() {
+        
+        guard let apiKey = Bundle.main.apiKey else { return }
+        
+//        let url = 
         
     }
 

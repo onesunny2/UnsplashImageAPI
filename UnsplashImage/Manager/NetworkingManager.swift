@@ -17,7 +17,7 @@ class NetworkingManager {
     func callRequest(url: String, completionHandler: @escaping (Data) -> ()) {
         
         AF.request(url, method: .get).responseString { value in
-//            print(value)
+            print(value)
         }
         
         AF.request(url, method: .get)
