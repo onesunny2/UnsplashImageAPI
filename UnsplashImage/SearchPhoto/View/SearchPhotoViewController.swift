@@ -98,6 +98,10 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
     func removeList() {
         resultList.removeAll()
         getPhotoData()
+        scrollUp()
+    }
+    
+    func scrollUp() {
         DispatchQueue.main.async {
             if self.resultList.count != 0 {
                 self.mainView.imageCollectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
@@ -151,8 +155,15 @@ extension SearchPhotoViewController {
         
         guard let text = searchBar.text else { return }
         
-        keyword = text
-        getPhotoData()
+        switch resultList.count {
+        case 0:
+            keyword = text
+            getPhotoData()
+        default:
+            page = 1
+            keyword = text
+            removeList()
+        }
 
     }
 }
