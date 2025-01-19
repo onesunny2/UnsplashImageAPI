@@ -90,7 +90,7 @@ class SearchPhotoView: BaseView {
         defaultLabel.text = "사진을 검색해 보세요!"
         defaultLabel.font = .systemFont(ofSize: 20, weight: .semibold)
         
-        imageCollectionView.register(SearchPhotoListCollectionViewCell.self, forCellWithReuseIdentifier: "SearchPhotoListCollectionViewCell")
+        imageCollectionView.register(BaseCollectionViewCell.self, forCellWithReuseIdentifier: BaseCollectionViewCell.id)
     }
     
     func stackLabel() {
