@@ -185,4 +185,17 @@ extension SearchPhotoViewController: UICollectionViewDelegate, UICollectionViewD
         
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let row = resultList[indexPath.row]
+        
+        let vc = SearchPhotoDetailViewController()
+        navigationController?.pushViewController(vc, animated: true)
+        vc.userId = row.id
+        vc.userImage = row.user.profile.medium
+        vc.userImage = row.user.name
+        vc.uploadDate = row.uploadDate
+        vc.mainImage = row.urls.small
+    }
 }

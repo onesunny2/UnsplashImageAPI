@@ -160,7 +160,6 @@ class BaseDetailView: BaseView {
     override func configView() {
         userNameLabel.detailLabel(text: "", size: 15, weight: .medium)
         uploadDateLabel.detailLabel(text: "", size: 13, weight: .semibold)
-        
         infoLabel.detailLabel(text: "정보", size: 20, weight: .black)
         sizeLabel.detailLabel(text: "크기", size: 18, weight: .bold)
         sizeDetailLabel.detailLabel(text: "", alignment: .right, size: 17, weight: .regular)
