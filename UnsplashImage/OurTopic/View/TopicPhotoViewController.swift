@@ -37,8 +37,7 @@ class TopicPhotoViewController: UIViewController {
 
         view.backgroundColor = .white
         setCollectionView()
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.title = "돌려돌려 랜덤 TOPIC"
+        setNavigation()
         
         threeTopics = Array(Topic.allCases.shuffled().prefix(3))
         print(threeTopics)
@@ -73,6 +72,13 @@ class TopicPhotoViewController: UIViewController {
                 break
             }
         }
+    }
+    
+    func setNavigation() {
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.tintColor = .label
+        navigationItem.title = "돌려돌려 랜덤 TOPIC"
+        navigationItem.backButtonTitle = ""
     }
 
 }
@@ -149,13 +155,38 @@ extension TopicPhotoViewController: UICollectionViewDelegate, UICollectionViewDa
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        let vc = TopicDetailViewController()
+        
         switch collectionView {
         case mainView.firstCollectionView:
+            let row = firstList[indexPath.row]
+            
+            navigationController?.pushViewController(vc, animated: true)
+            sendDataToVC(vc: vc, row: row)
         case mainView.secondCollectionView:
+            let row = secondList[indexPath.row]
+            
+            navigationController?.pushViewController(vc, animated: true)
+            sendDataToVC(vc: vc, row: row)
         case mainView.thirdCollectionView:
+            let row = thirdList[indexPath.row]
+            
+            navigationController?.pushViewController(vc, animated: true)
+            sendDataToVC(vc: vc, row: row)
         default:
+            print(#function, "오류")
             break
         }
+    }
+    
+    func sendDataToVC(vc: TopicDetailViewController, row: PhotoTopic) {
+        vc.userId = row.id
+        vc.userImage = row.user.profile.medium
+        vc.userName = row.user.name
+        vc.uploadDate = row.uploadDate.changeDate()
+        vc.mainImage = row.urls.small
+        vc.width = row.width
+        vc.height = row.height
     }
     
 }
