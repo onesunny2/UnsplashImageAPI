@@ -63,11 +63,11 @@ class TopicPhotoViewController: UIViewController {
             
             switch topicQuery {
             case self.threeTopics[0].queryParameter:
-                self.firstList = Array(result.prefix(10))
+                self.firstList = Array(result.shuffled().prefix(10))
             case self.threeTopics[1].queryParameter:
-                self.secondList = Array(result.prefix(10))
+                self.secondList = Array(result.shuffled().prefix(10))
             case self.threeTopics[2].queryParameter:
-                self.thirdList = Array(result.prefix(10))
+                self.thirdList = Array(result.shuffled().prefix(10))
             default:
                 print("default")
                 break
