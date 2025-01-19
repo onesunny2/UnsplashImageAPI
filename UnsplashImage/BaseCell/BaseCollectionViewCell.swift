@@ -9,32 +9,24 @@ import UIKit
 import Kingfisher
 import SnapKit
 
-class SearchPhotoListCollectionViewCell: UICollectionViewCell {
+class BaseCollectionViewCell: UICollectionViewCell {
     
-    static let id = "SearchPhotoListCollectionViewCell"
+    static let id = "BaseCollectionViewCell"
     
     let thumImage = UIImageView()
     let likeBgView = UIView()
     let likeLabel = UILabel()
+//    private var imageCornerRadius: CGFloat
     
-    
+    // ❔cell은 override init이 아닌 직접 생성자를 쓰면 왜 오류가 나는가
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         backgroundColor = .clear
-        configImage()
-        configLike()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func didAddSubview(_ subview: UIView) {
-        super.didAddSubview(subview)
-        
-        // cornerRadius 넣는 자리
-        thumImage.clipsToBounds = true
     }
     
     override func layoutSubviews() {
@@ -43,11 +35,23 @@ class SearchPhotoListCollectionViewCell: UICollectionViewCell {
         DispatchQueue.main.async {
             self.likeBgView.layer.cornerRadius = self.likeBgView.frame.height / 2
             self.likeBgView.clipsToBounds = true
+            self.thumImage.clipsToBounds = true
         }
     }
 }
 
-extension SearchPhotoListCollectionViewCell {
+extension BaseCollectionViewCell {
+    
+    func configCell(corner: CGFloat = 0) {
+        configImage()
+        configLike()
+        configCornerRadius(corner: corner)
+        self.layoutIfNeeded()
+    }
+    
+    func configCornerRadius(corner: CGFloat) {
+        thumImage.layer.cornerRadius = corner
+    }
     
     func configImage() {
         contentView.addSubview(thumImage)

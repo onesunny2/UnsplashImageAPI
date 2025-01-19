@@ -186,9 +186,10 @@ extension SearchPhotoViewController: UICollectionViewDelegate, UICollectionViewD
         
         let row = resultList[indexPath.row]
        
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SearchPhotoListCollectionViewCell", for: indexPath) as? SearchPhotoListCollectionViewCell else { print("error")
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BaseCollectionViewCell.id, for: indexPath) as? BaseCollectionViewCell else { print("error")
             return UICollectionViewCell() }
         
+        cell.configCell()
         cell.getImageUrl(url: row.urls.small)
         
         let like = row.likes.formatted()
