@@ -147,6 +147,16 @@ extension TopicPhotoViewController: UICollectionViewDelegate, UICollectionViewDa
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        switch collectionView {
+        case mainView.firstCollectionView:
+        case mainView.secondCollectionView:
+        case mainView.thirdCollectionView:
+        default:
+            break
+        }
+    }
     
 }
 
