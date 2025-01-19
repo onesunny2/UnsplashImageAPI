@@ -10,6 +10,7 @@ import UIKit
 class SearchPhotoDetailViewController: UIViewController {
     
     static let id = "SearchPhotoDetailViewController"
+    let networkManager = NetworkingManager.shared
     
     private let mainView = BaseDetailView()
     
@@ -18,6 +19,8 @@ class SearchPhotoDetailViewController: UIViewController {
     var userName = ""
     var uploadDate = ""
     var mainImage = ""
+    var width = 0
+    var height = 0
     
     override func loadView() {
         view = mainView
@@ -33,6 +36,7 @@ class SearchPhotoDetailViewController: UIViewController {
         mainView.userNameLabel.text = userName
         mainView.uploadDateLabel.text = uploadDate
         mainView.getImageUrl(user: userImage, thum: mainImage)
+        mainView.sizeDetailLabel.text = String(width.formatted()) + " x " + String(height.formatted())
 
         getInfoData()
     }
@@ -41,8 +45,15 @@ class SearchPhotoDetailViewController: UIViewController {
         
         guard let apiKey = Bundle.main.apiKey else { return }
         
-//        let url = 
+        let url = "https://api.unsplash.com/photos/\(userId)/statistics?client_id=\(apiKey)"
         
+        networkManager.callRequest(url: url) { data in
+            
+            guard let result = try? self.networkManager.decoder.decode(Statistics.self, from: data) else { return print("decoding error") }
+            
+            self.mainView.viewCountDatailLabel.text = String(result.views.total.formatted())
+            self.mainView.downloadDetailLabel.text = String(result.downloads.total.formatted())
+        }
     }
 
 }

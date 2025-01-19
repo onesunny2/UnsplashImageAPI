@@ -36,6 +36,7 @@ class BaseDetailView: BaseView {
     let viewCountStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
+        stackView.distribution = .equalSpacing
         
         return stackView
     }()
@@ -118,9 +119,13 @@ class BaseDetailView: BaseView {
         }
         
         sizeStackView.snp.makeConstraints {
+            
+            // ❔ 이렇게 stackView의 가로 길이를 맞추는게 괜찮은 방법인건가요?
+            let width = UIScreen.main.bounds.width - (32 + 100 + infoLabel.frame.width)
+            
             $0.trailing.equalToSuperview().inset(16)
-            $0.leading.equalTo(infoLabel.snp.trailing).offset(50)
             $0.centerY.equalTo(infoLabel)
+            $0.width.equalTo(width)
         }
         
         sizeLabel.snp.makeConstraints {

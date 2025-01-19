@@ -200,5 +200,7 @@ extension SearchPhotoViewController: UICollectionViewDelegate, UICollectionViewD
         vc.userName = row.user.name
         vc.uploadDate = row.uploadDate
         vc.mainImage = row.urls.small
+        vc.width = row.width
+        vc.height = row.height
     }
 }
