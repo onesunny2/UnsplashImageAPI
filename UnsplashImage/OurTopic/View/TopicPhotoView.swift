@@ -11,6 +11,8 @@ import SnapKit
 
 class TopicPhotoView: BaseView {
     
+    let scrollView = UIScrollView()
+    let contentView = UIView()
     let firstCollectionView: UICollectionView
     let firstLabel = UILabel()
     let secondCollectionView: UICollectionView
@@ -50,50 +52,76 @@ class TopicPhotoView: BaseView {
     }
     
     override func configHierarchy() {
+        self.addSubview(scrollView)
+        scrollView.addSubview(contentView)
         [firstLabel, firstCollectionView, secondLabel, secondCollectionView, thirdLabel, thirdCollectionView].forEach {
-            self.addSubview($0)
+            contentView.addSubview($0)
         }
     }
     
     override func configLayout() {
+        
+        scrollView.snp.makeConstraints {
+            $0.edges.equalTo(self.safeAreaLayoutGuide)
+        }
+        
+        contentView.snp.makeConstraints {
+            $0.width.equalTo(scrollView.snp.width)
+            $0.verticalEdges.equalTo(scrollView)
+        }
+        
         firstLabel.snp.makeConstraints {
-            $0.top.leading.equalTo(self.safeAreaLayoutGuide).inset(16)
+            $0.top.leading.equalTo(contentView).inset(16)
         }
         
         firstCollectionView.snp.makeConstraints {
-            
             let cellHeight = (UIScreen.main.bounds.width / 2 - 40) * 1.3
             
             $0.top.equalTo(firstLabel.snp.bottom).offset(12)
-            $0.horizontalEdges.equalTo(self.safeAreaLayoutGuide)
+            $0.horizontalEdges.equalTo(contentView)
             $0.height.equalTo(cellHeight)
         }
         
         secondLabel.snp.makeConstraints {
             $0.top.equalTo(firstCollectionView.snp.bottom).offset(18)
-            $0.leading.equalTo(self.safeAreaLayoutGuide).inset(16)
+            $0.leading.equalTo(contentView).inset(16)
         }
         
         secondCollectionView.snp.makeConstraints {
+            let cellHeight = (UIScreen.main.bounds.width / 2 - 40) * 1.3
+            
             $0.top.equalTo(secondLabel.snp.bottom).offset(12)
-            $0.leading.equalTo(self.safeAreaLayoutGuide).inset(16)
+            $0.horizontalEdges.equalTo(contentView)
+            $0.height.equalTo(cellHeight)
         }
         
         thirdLabel.snp.makeConstraints {
             $0.top.equalTo(secondCollectionView.snp.bottom).offset(18)
-            $0.leading.equalTo(self.safeAreaLayoutGuide).inset(16)
+            $0.leading.equalTo(contentView).inset(16)
         }
         
         thirdCollectionView.snp.makeConstraints {
+            let cellHeight = (UIScreen.main.bounds.width / 2 - 40) * 1.3
+            
             $0.top.equalTo(thirdLabel.snp.bottom).offset(12)
-            $0.bottom.leading.equalTo(self.safeAreaLayoutGuide).inset(16)
+            $0.bottom.horizontalEdges.equalTo(contentView)
+            $0.height.equalTo(cellHeight)
         }
     }
     
     override func configView() {
+        
+        scrollView.backgroundColor = .clear
+        contentView.backgroundColor = .clear
+        scrollView.showsVerticalScrollIndicator = false
+        
         firstLabel.detailLabel(text: "", size: 18, weight: .bold)
         secondLabel.detailLabel(text: "", size: 18, weight: .bold)
         thirdLabel.detailLabel(text: "", size: 18, weight: .bold)
+        
+        firstCollectionView.showsHorizontalScrollIndicator = false
+        secondCollectionView.showsHorizontalScrollIndicator = false
+        thirdCollectionView.showsHorizontalScrollIndicator = false
         
         firstCollectionView.register(BaseCollectionViewCell.self, forCellWithReuseIdentifier: BaseCollectionViewCell.id)
         secondCollectionView.register(BaseCollectionViewCell.self, forCellWithReuseIdentifier: BaseCollectionViewCell.id)
