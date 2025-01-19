@@ -27,6 +27,7 @@ class TopicPhotoView: BaseView {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: cellWidth, height: cellWidth * 1.3)
+        layout.minimumInteritemSpacing = cellSpacing
         layout.sectionInset = UIEdgeInsets(top: 0, left: sectionInset, bottom: 0, right: 4)
         
         return layout
@@ -60,8 +61,12 @@ class TopicPhotoView: BaseView {
         }
         
         firstCollectionView.snp.makeConstraints {
+            
+            let cellHeight = (UIScreen.main.bounds.width / 2 - 40) * 1.3
+            
             $0.top.equalTo(firstLabel.snp.bottom).offset(12)
-            $0.leading.equalTo(self.safeAreaLayoutGuide).inset(16)
+            $0.horizontalEdges.equalTo(self.safeAreaLayoutGuide)
+            $0.height.equalTo(cellHeight)
         }
         
         secondLabel.snp.makeConstraints {

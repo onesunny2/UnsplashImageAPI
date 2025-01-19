@@ -16,7 +16,6 @@ class BaseCollectionViewCell: UICollectionViewCell {
     let thumImage = UIImageView()
     let likeBgView = UIView()
     let likeLabel = UILabel()
-//    private var imageCornerRadius: CGFloat
     
     // ❔cell은 override init이 아닌 직접 생성자를 쓰면 왜 오류가 나는가
     override init(frame: CGRect) {
