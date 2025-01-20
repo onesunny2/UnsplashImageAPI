@@ -12,6 +12,7 @@ import SnapKit
 class TopicPhotoView: BaseView {
     
     let scrollView = UIScrollView()
+    let refreshControl = UIRefreshControl()
     let contentView = UIView()
     let firstCollectionView: UICollectionView
     let firstLabel = UILabel()
@@ -53,6 +54,7 @@ class TopicPhotoView: BaseView {
     
     override func configHierarchy() {
         self.addSubview(scrollView)
+        scrollView.addSubview(refreshControl)
         scrollView.addSubview(contentView)
         [firstLabel, firstCollectionView, secondLabel, secondCollectionView, thirdLabel, thirdCollectionView].forEach {
             contentView.addSubview($0)

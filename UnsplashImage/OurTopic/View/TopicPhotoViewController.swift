@@ -36,19 +36,13 @@ class TopicPhotoViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = .white
+        mainView.scrollView.alwaysBounceVertical = true
+        mainView.scrollView.bounces = true
+        mainView.scrollView.delegate = self
         setCollectionView()
         setNavigation()
         
-        threeTopics = Array(Topic.allCases.shuffled().prefix(3))
-        print(threeTopics)
-        
-        for index in 0...2 {
-            getImageData(topicQuery: threeTopics[index].queryParameter)
-        }
-        
-        mainView.firstLabel.text = threeTopics[0].name
-        mainView.secondLabel.text = threeTopics[1].name
-        mainView.thirdLabel.text = threeTopics[2].name
+        setRandomTopic()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -92,6 +86,18 @@ class TopicPhotoViewController: UIViewController {
         navigationController?.navigationBar.tintColor = .label
         navigationItem.title = "돌려돌려 랜덤 TOPIC"
         navigationItem.backButtonTitle = ""
+    }
+    
+    func setRandomTopic() {
+        threeTopics = Array(Topic.allCases.shuffled().prefix(3))
+        
+        for index in 0...2 {
+            getImageData(topicQuery: threeTopics[index].queryParameter)
+        }
+        
+        mainView.firstLabel.text = threeTopics[0].name
+        mainView.secondLabel.text = threeTopics[1].name
+        mainView.thirdLabel.text = threeTopics[2].name
     }
 
 }
@@ -202,6 +208,20 @@ extension TopicPhotoViewController: UICollectionViewDelegate, UICollectionViewDa
         vc.height = row.height
     }
     
+}
+
+extension TopicPhotoViewController: UIScrollViewDelegate {
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if scrollView.contentOffset.y <= -70 {
+            mainView.refreshControl.beginRefreshing()
+            print("start refresh")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                self.setRandomTopic()
+            }
+            mainView.refreshControl.endRefreshing()
+        }
+    }
 }
 
 extension TopicPhotoViewController {
