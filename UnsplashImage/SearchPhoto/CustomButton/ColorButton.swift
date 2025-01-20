@@ -27,7 +27,7 @@ class ColorButton: UIButton {
         config.baseBackgroundColor = .systemGray5
         config.baseForegroundColor = .label
         config.cornerStyle = .capsule
-        config.image = UIImage(systemName: "circle.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20))?.withTintColor(UIColor(.black), renderingMode: .alwaysOriginal)
+        config.image = UIImage(systemName: "circle.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20))?.withTintColor(type.color, renderingMode: .alwaysOriginal)
         config.imagePadding = 5
         
         self.configuration = config
@@ -74,22 +74,25 @@ extension ColorButton {
             default:
                 return self.rawValue
             }
-//            switch self {
-//            case .black:
-//                return "black"
-//            case .white:
-//                return "white"
-//            case .yellow:
-//                return "yellow"
-//            case .red:
-//                return "red"
-//            case .purple:
-//                return "purple"
-//            case .green:
-//                return "green"
-//            case .blue:
-//                return "blue"
-//            }
+        }
+        
+        var color: UIColor {
+            switch self {
+            case .black:
+                return UIColor.black
+            case .white:
+                return UIColor.white
+            case .yellow:
+                return UIColor.systemYellow
+            case .red:
+                return UIColor.systemRed
+            case .purple:
+                return UIColor.systemPurple
+            case .green:
+                return UIColor.systemGreen
+            case .blue:
+                return UIColor.systemBlue
+            }
         }
     }
 }

@@ -67,14 +67,12 @@ class SearchPhotoView: BaseView {
         }
         
         stackView.snp.makeConstraints {
-            $0.edges.equalTo(scrollView)
-//            $0.height.equalTo(50)
-        }
-        
-        colorButton.forEach {
-            $0.snp.makeConstraints {
-                $0.height.equalTo(40)
-            }
+            
+            let padding = UIScreen.main.bounds.width * 0.25
+            
+            $0.verticalEdges.equalTo(scrollView)
+            $0.leading.equalTo(scrollView).inset(16)
+            $0.trailing.equalTo(scrollView).inset(padding)
         }
         
         defaultLabel.snp.makeConstraints {
@@ -89,7 +87,6 @@ class SearchPhotoView: BaseView {
         
         toggle.snp.makeConstraints {
             $0.centerY.equalTo(stackView)
-            $0.bottom.equalTo(scrollView.snp.bottom).inset(5)
             $0.trailing.equalTo(self.safeAreaLayoutGuide)
             $0.width.equalTo(100)
             $0.height.equalTo(35)
