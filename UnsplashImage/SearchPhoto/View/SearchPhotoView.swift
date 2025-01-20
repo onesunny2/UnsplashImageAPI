@@ -43,6 +43,10 @@ class SearchPhotoView: BaseView {
         let type = ColorButton.Color.allCases
         for index in 0...colorButton.count - 1 {
             colorButton[index].configColorButton(type: type[index])
+            if index == 0 {
+                colorButton[index].configuration?.baseForegroundColor = .white
+                colorButton[index].configuration?.baseBackgroundColor = .darkGray
+            }
         }
         
         super.init(frame: frame)

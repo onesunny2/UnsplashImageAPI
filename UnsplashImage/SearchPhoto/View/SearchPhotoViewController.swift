@@ -19,7 +19,8 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
     private var keyword = ""
     private var page = 1
     private var isEnd = false
-    var sort = FilterButton.Filter.relevant.labelText
+    private var colorFilter = ColorButton.Color.black.query
+    private var sort = FilterButton.Filter.relevant.labelText
     var resultList: [PhotoResult] = [] {
         didSet {
             print("resultList")
@@ -39,6 +40,9 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
         configNavigation()
         setCollectionView()
         mainView.toggle.addTarget(self, action: #selector(filterButtonTapped), for: .touchUpInside)
+        mainView.colorButton.forEach {
+            $0.addTarget(self, action: #selector(colorButtonTapped), for: .touchUpInside)
+        }
     }
 
     func getPhotoData() {
@@ -46,7 +50,7 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
         guard let apiKey = Bundle.main.apiKey else { return }
         print(apiKey)
         
-        let url = "https://api.unsplash.com/search/photos?query=\(keyword)&page=\(page)&per_page=20&order_by=\(sort)&color=black&client_id=\(apiKey)"
+        let url = "https://api.unsplash.com/search/photos?query=\(keyword)&page=\(page)&per_page=20&order_by=\(sort)&color=\(colorFilter)&client_id=\(apiKey)"
    
         networkManager.callRequest(url: url) { data in
             
@@ -73,6 +77,44 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
                 }
             }
         }
+    }
+    
+    @objc
+    func colorButtonTapped(button: UIButton) {
+        
+        guard let colorButton = button as? ColorButton else { return }
+        
+        let type = colorButton.colorType
+        
+        switch type {
+        case .black:
+            changeColorButton(type: type)
+        case .blue:
+            changeColorButton(type: type)
+        case .green:
+            changeColorButton(type: type)
+        case .purple:
+            changeColorButton(type: type)
+        case .red:
+            changeColorButton(type: type)
+        case .white:
+            changeColorButton(type: type)
+        case .yellow:
+            changeColorButton(type: type)
+        }
+        
+    }
+    
+    func changeColorButton(type: ColorButton.Color) {
+        colorFilter = type.query
+        removeList()
+        guard let index = ColorButton.Color.allCases.firstIndex(of: type) else { return }
+        mainView.colorButton.forEach {
+            $0.configuration?.baseForegroundColor = .black
+            $0.configuration?.baseBackgroundColor = .systemGray5
+        }
+        mainView.colorButton[index].configuration?.baseForegroundColor = .white
+        mainView.colorButton[index].configuration?.baseBackgroundColor = .darkGray
     }
     
     @objc

@@ -25,7 +25,7 @@ class ColorButton: UIButton {
         
         config.attributedTitle = AttributedString(type.label, attributes: contaier)
         config.baseBackgroundColor = .systemGray5
-        config.baseForegroundColor = .label
+        config.baseForegroundColor = .black
         config.cornerStyle = .capsule
         config.image = UIImage(systemName: "circle.fill", withConfiguration: UIImage.SymbolConfiguration(pointSize: 20))?.withTintColor(type.color, renderingMode: .alwaysOriginal)
         config.imagePadding = 5
