@@ -105,16 +105,10 @@ class SearchPhotoView: BaseView {
         
         stackView.axis = .horizontal
         stackView.spacing = 10
-
-        stackLabel()
         
         defaultLabel.text = "사진을 검색해 보세요!"
         defaultLabel.font = .systemFont(ofSize: 20, weight: .semibold)
         
         imageCollectionView.register(BaseCollectionViewCell.self, forCellWithReuseIdentifier: BaseCollectionViewCell.id)
-    }
-    
-    func stackLabel() {
-  
     }
 }
