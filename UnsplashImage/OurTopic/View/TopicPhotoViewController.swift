@@ -51,10 +51,23 @@ class TopicPhotoViewController: UIViewController {
         mainView.thirdLabel.text = threeTopics[2].name
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        navigationController?.navigationBar.prefersLargeTitles = false
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
     func getImageData(topicQuery: String) {
         
         guard let apiKey = Bundle.main.apiKey else { return }
         
+        // router pattern
         let url = "https://api.unsplash.com/topics/\(topicQuery)/photos?page=1&client_id=\(apiKey)"
         
         networkingManager.callRequest(url: url) { data in

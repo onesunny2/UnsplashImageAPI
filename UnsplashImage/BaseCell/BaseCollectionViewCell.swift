@@ -29,13 +29,23 @@ class BaseCollectionViewCell: UICollectionViewCell {
     }
     
     override func layoutSubviews() {
-        
+        print(#function)
+//                    self.likeBgView.layer.cornerRadius = self.likeBgView.frame.height / 2
+//                    self.likeBgView.clipsToBounds = true
+//                    self.thumImage.clipsToBounds = true
         // ❔layoutSubview는 이미 객체의 프레임이 다 잡히고 실행한다고 알고있고, 이미 메인에서 동작하고 있는데 왜 강제로 지연시키기 않으면 cornerRadius가 들지 않나요?
-        DispatchQueue.main.async {
-            self.likeBgView.layer.cornerRadius = self.likeBgView.frame.height / 2
-            self.likeBgView.clipsToBounds = true
-            self.thumImage.clipsToBounds = true
-        }
+//        DispatchQueue.main.async {
+//            self.likeBgView.layer.cornerRadius = self.likeBgView.frame.height / 2
+//            self.likeBgView.clipsToBounds = true
+//            self.thumImage.clipsToBounds = true
+//        }
+    }
+    
+    override func draw(_ rect: CGRect) {
+        print(#function)
+        self.likeBgView.layer.cornerRadius = self.likeBgView.frame.height / 2
+        self.likeBgView.clipsToBounds = true
+        self.thumImage.clipsToBounds = true
     }
 }
 

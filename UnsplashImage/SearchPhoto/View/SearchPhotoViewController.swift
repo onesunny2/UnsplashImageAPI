@@ -19,7 +19,8 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
     private var keyword = ""
     private var page = 1
     private var isEnd = false
-    var sort = FilterButton.Filter.relevant.labelText
+    private var colorFilter = ColorButton.Color.black.query
+    private var sort = FilterButton.Filter.relevant.labelText
     var resultList: [PhotoResult] = [] {
         didSet {
             print("resultList")
@@ -39,6 +40,9 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
         configNavigation()
         setCollectionView()
         mainView.toggle.addTarget(self, action: #selector(filterButtonTapped), for: .touchUpInside)
+        mainView.colorButton.forEach {
+            $0.addTarget(self, action: #selector(colorButtonTapped), for: .touchUpInside)
+        }
     }
 
     func getPhotoData() {
@@ -46,7 +50,7 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
         guard let apiKey = Bundle.main.apiKey else { return }
         print(apiKey)
         
-        let url = "https://api.unsplash.com/search/photos?query=\(keyword)&page=\(page)&per_page=20&order_by=\(sort)&color=black&client_id=\(apiKey)"
+        let url = "https://api.unsplash.com/search/photos?query=\(keyword)&page=\(page)&per_page=20&order_by=\(sort)&color=\(colorFilter)&client_id=\(apiKey)"
    
         networkManager.callRequest(url: url) { data in
             
@@ -73,6 +77,44 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
                 }
             }
         }
+    }
+    
+    @objc
+    func colorButtonTapped(button: UIButton) {
+        
+        guard let colorButton = button as? ColorButton else { return }
+        
+        let type = colorButton.colorType
+        
+        switch type {
+        case .black:
+            changeColorButton(type: type)
+        case .blue:
+            changeColorButton(type: type)
+        case .green:
+            changeColorButton(type: type)
+        case .purple:
+            changeColorButton(type: type)
+        case .red:
+            changeColorButton(type: type)
+        case .white:
+            changeColorButton(type: type)
+        case .yellow:
+            changeColorButton(type: type)
+        }
+        
+    }
+    
+    func changeColorButton(type: ColorButton.Color) {
+        colorFilter = type.query
+        removeList()
+        guard let index = ColorButton.Color.allCases.firstIndex(of: type) else { return }
+        mainView.colorButton.forEach {
+            $0.configuration?.baseForegroundColor = .black
+            $0.configuration?.baseBackgroundColor = .systemGray5
+        }
+        mainView.colorButton[index].configuration?.baseForegroundColor = .white
+        mainView.colorButton[index].configuration?.baseBackgroundColor = .darkGray
     }
     
     @objc
@@ -120,7 +162,7 @@ extension SearchPhotoViewController: UICollectionViewDataSourcePrefetching {
                 page += 1
                 getPhotoData()
             }
-            // ❔ prefetching의 특성 상 item.row가 마지막이 되기 전에 이미 감지?를 해서 원하는 딱 마지막에 alert가 안뜨는데 이 시점을 어떻게 맞출 수 있나요?
+            // ❔ prefetching의 특성 상 item.row가 마지막이 되기 전에 이미 감지?를 해서 원하는 딱 마지막에 alert가 안뜨는데 이 시점을 어떻게 맞출 수 있나요? (Cell for row)
             else if isEnd && (resultList.count - 1 == item.row) {
                 print("마지막페이지")
                 alertMessage(message: "마지막 페이지입니다!")

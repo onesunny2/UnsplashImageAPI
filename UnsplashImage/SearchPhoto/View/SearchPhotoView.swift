@@ -15,6 +15,7 @@ class SearchPhotoView: BaseView {
     let stackView = UIStackView()
     var imageCollectionView: UICollectionView
     let defaultLabel = UILabel()
+    var colorButton: [ColorButton] = []
     
     func imageCollectionViewFlowLayout() -> UICollectionViewFlowLayout {
         let sectionInsect: CGFloat = 0
@@ -35,8 +36,20 @@ class SearchPhotoView: BaseView {
     override init(frame: CGRect) {
         imageCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         
-        super.init(frame: frame)
+        for _ in 0...ColorButton.Color.allCases.count - 1 {
+            colorButton.append(ColorButton())
+        }
         
+        let type = ColorButton.Color.allCases
+        for index in 0...colorButton.count - 1 {
+            colorButton[index].configColorButton(type: type[index])
+            if index == 0 {
+                colorButton[index].configuration?.baseForegroundColor = .white
+                colorButton[index].configuration?.baseBackgroundColor = .darkGray
+            }
+        }
+        
+        super.init(frame: frame)
         imageCollectionView.collectionViewLayout = imageCollectionViewFlowLayout()
     }
     
@@ -45,6 +58,9 @@ class SearchPhotoView: BaseView {
         self.addSubview(imageCollectionView)
         self.addSubview(scrollView)
         scrollView.addSubview(stackView)
+        colorButton.forEach {
+            stackView.addArrangedSubview($0)
+        }
         self.addSubview(toggle)
     }
     
@@ -55,8 +71,12 @@ class SearchPhotoView: BaseView {
         }
         
         stackView.snp.makeConstraints {
-            $0.edges.equalTo(scrollView)
-            $0.height.equalTo(50)
+            
+            let padding = UIScreen.main.bounds.width * 0.25
+            
+            $0.verticalEdges.equalTo(scrollView)
+            $0.leading.equalTo(scrollView).inset(16)
+            $0.trailing.equalTo(scrollView).inset(padding)
         }
         
         defaultLabel.snp.makeConstraints {
@@ -70,16 +90,17 @@ class SearchPhotoView: BaseView {
         }
         
         toggle.snp.makeConstraints {
-            $0.top.equalTo(scrollView.snp.top).inset(5)
-            $0.bottom.equalTo(scrollView.snp.bottom).inset(5)
+            $0.centerY.equalTo(stackView)
             $0.trailing.equalTo(self.safeAreaLayoutGuide)
             $0.width.equalTo(100)
+            $0.height.equalTo(35)
         }
     }
     
     override func configView() {
         backgroundColor = .systemBackground
         scrollView.backgroundColor = .systemBackground
+        scrollView.showsHorizontalScrollIndicator = false
         stackView.backgroundColor = .clear
         
         stackView.axis = .horizontal
@@ -94,24 +115,6 @@ class SearchPhotoView: BaseView {
     }
     
     func stackLabel() {
-        let label = UILabel()
-        label.backgroundColor = .systemIndigo
-        label.text = "컬러버튼 자리입니다"
-        stackView.addArrangedSubview(label)
-        
-        let label2 = UILabel()
-        label2.backgroundColor = .systemOrange
-        label2.text = "컬러버튼 자리입니다"
-        stackView.addArrangedSubview(label2)
-        
-        let label3 = UILabel()
-        label3.backgroundColor = .systemGray
-        label3.text = "컬러버튼 자리입니다"
-        stackView.addArrangedSubview(label3)
-        
-        let label4 = UILabel()
-        label4.backgroundColor = .systemBrown
-        label4.text = "컬러버튼 자리입니다"
-        stackView.addArrangedSubview(label4)
+  
     }
 }
