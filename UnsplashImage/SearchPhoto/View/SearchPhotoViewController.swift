@@ -87,19 +87,7 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
         let type = colorButton.colorType
         
         switch type {
-        case .black:
-            changeColorButton(type: type)
-        case .blue:
-            changeColorButton(type: type)
-        case .green:
-            changeColorButton(type: type)
-        case .purple:
-            changeColorButton(type: type)
-        case .red:
-            changeColorButton(type: type)
-        case .white:
-            changeColorButton(type: type)
-        case .yellow:
+        default:
             changeColorButton(type: type)
         }
         
