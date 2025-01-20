@@ -100,6 +100,7 @@ class SearchPhotoView: BaseView {
     override func configView() {
         backgroundColor = .systemBackground
         scrollView.backgroundColor = .systemBackground
+        scrollView.showsHorizontalScrollIndicator = false
         stackView.backgroundColor = .clear
         
         stackView.axis = .horizontal
