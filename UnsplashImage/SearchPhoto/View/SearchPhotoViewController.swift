@@ -47,21 +47,26 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
 
     func getPhotoData() {
         
-        guard let apiKey = Bundle.main.apiKey else { return }
-        print(apiKey)
         
-        let url = "https://api.unsplash.com/search/photos?query=\(keyword)&page=\(page)&per_page=20&order_by=\(sort)&color=\(colorFilter)&client_id=\(apiKey)"
    
-        networkManager.callRequest(url: url) { data in
+        networkManager.callRequest(api: .search(query: keyword, page: page, sort: sort, color: colorFilter)) { data in
             
             guard let result = try? self.networkManager.decoder.decode(PhotoSearch.self, from: data) else { return print("decoding failed") }
 
             self.total = result.total
             
-            if self.total == 0 {
+//            if self.total == 0 {
+//                self.mainView.imageCollectionView.isHidden = true
+//                self.mainView.defaultLabel.text = "검색결과가 없어요(영어만 인식해요!)"
+//            } else {
+//                self.mainView.imageCollectionView.isHidden = false
+//            }
+            
+            switch self.total {
+            case 0:
                 self.mainView.imageCollectionView.isHidden = true
                 self.mainView.defaultLabel.text = "검색결과가 없어요(영어만 인식해요!)"
-            } else {
+            default:
                 self.mainView.imageCollectionView.isHidden = false
             }
             
