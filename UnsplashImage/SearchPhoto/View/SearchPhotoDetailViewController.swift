@@ -42,12 +42,8 @@ class SearchPhotoDetailViewController: UIViewController {
     }
     
     func getInfoData() {
-        
-        guard let apiKey = Bundle.main.apiKey else { return }
-        
-        let url = "https://api.unsplash.com/photos/\(userId)/statistics?client_id=\(apiKey)"
-        
-        networkManager.callRequest(url: url) { data in
+
+        networkManager.callRequest(api: .statistics(userId: userId)) { data in
             
             guard let result = try? self.networkManager.decoder.decode(Statistics.self, from: data) else { return print("decoding error") }
             

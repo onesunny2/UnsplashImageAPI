@@ -37,12 +37,8 @@ class TopicDetailViewController: UIViewController {
     }
  
     func getInfoData() {
-        
-        guard let apiKey = Bundle.main.apiKey else { return }
-        
-        let url = "https://api.unsplash.com/photos/\(userId)/statistics?client_id=\(apiKey)"
-        
-        networkingManager.callRequest(url: url) { data in
+ 
+        networkingManager.callRequest(api: .statistics(userId: userId)) { data in
             
             guard let result = try? self.networkingManager.decoder.decode(Statistics.self, from: data) else { return }
             

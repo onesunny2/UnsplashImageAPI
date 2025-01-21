@@ -59,12 +59,7 @@ class TopicPhotoViewController: UIViewController {
     
     func getImageData(topicQuery: String) {
         
-        guard let apiKey = Bundle.main.apiKey else { return }
-        
-        // router pattern
-        let url = "https://api.unsplash.com/topics/\(topicQuery)/photos?page=1&client_id=\(apiKey)"
-        
-        networkingManager.callRequest(url: url) { data in
+        networkingManager.callRequest(api: .topic(topic: topicQuery)) { data in
             guard let result = try? self.networkingManager.decoder.decode([PhotoTopic].self, from: data) else { return }
             
             switch topicQuery {
