@@ -59,6 +59,7 @@ class TopicPhotoView: BaseView {
         [firstLabel, firstCollectionView, secondLabel, secondCollectionView, thirdLabel, thirdCollectionView].forEach {
             contentView.addSubview($0)
         }
+        
     }
     
     override func configLayout() {

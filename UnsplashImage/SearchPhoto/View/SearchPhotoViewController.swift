@@ -10,7 +10,7 @@ import Alamofire
 
 class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearchControllerDelegate {
     
-    let searchController = UISearchController(searchResultsController: nil)  // 서치바는 BaseView를 토대로 그려지지 못함. ❔NavigationController는 VC에 연결하는 컨트롤러라서 뷰컨에서 그리고 설정해야하는건가?
+    let searchController = UISearchController(searchResultsController: nil)
     
     let networkManager = NetworkingManager.shared
     var mainView = SearchPhotoView()
@@ -54,13 +54,6 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
             guard let result = try? self.networkManager.decoder.decode(PhotoSearch.self, from: data) else { return print("decoding failed") }
 
             self.total = result.total
-            
-//            if self.total == 0 {
-//                self.mainView.imageCollectionView.isHidden = true
-//                self.mainView.defaultLabel.text = "검색결과가 없어요(영어만 인식해요!)"
-//            } else {
-//                self.mainView.imageCollectionView.isHidden = false
-//            }
             
             switch self.total {
             case 0:
