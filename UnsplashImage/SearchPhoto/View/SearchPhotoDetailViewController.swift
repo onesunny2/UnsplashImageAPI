@@ -12,7 +12,7 @@ class SearchPhotoDetailViewController: UIViewController {
     static let id = "SearchPhotoDetailViewController"
     let networkManager = NetworkingManager.shared
     
-    private let mainView = BaseDetailView()
+    lazy var mainView = BaseDetailView(ratio: ratio)
     
     var userId = ""
     var userImage = ""
@@ -21,6 +21,7 @@ class SearchPhotoDetailViewController: UIViewController {
     var mainImage = ""
     var width = 0
     var height = 0
+    var ratio: CGFloat = 0
     
     override func loadView() {
         view = mainView
@@ -30,6 +31,8 @@ class SearchPhotoDetailViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = .systemBackground
+        
+        ratio = CGFloat(width / height)
         
         // TODO: navigation Appearance
         

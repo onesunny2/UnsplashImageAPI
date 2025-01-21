@@ -23,7 +23,7 @@ class TabBarController: UITabBarController {
         firstVc.tabBarItem.selectedImage = UIImage(systemName: "folder.fill")
         
         
-        let secondVc = UINavigationController(rootViewController: SecondViewController())
+        let secondVc = UINavigationController(rootViewController: ImageReelsViewController())
         secondVc.tabBarItem.title = ""
         secondVc.tabBarItem.image = UIImage(systemName: "star")
         secondVc.tabBarItem.selectedImage = UIImage(systemName: "star.fill")
