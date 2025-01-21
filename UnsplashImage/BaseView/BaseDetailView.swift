@@ -51,13 +51,25 @@ class BaseDetailView: BaseView {
     let downloadLabel = UILabel()
     let downloadDetailLabel = UILabel()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    let ratio: CGFloat
+    
+    init(ratio: CGFloat) {
+        self.ratio = ratio
+        
+        super.init(frame: .zero)
         
         configHierarchy()
         configLayout()
         configView()
     }
+    
+//    override init(frame: CGRect) {
+//        super.init(frame: frame)
+//        
+//        configHierarchy()
+//        configLayout()
+//        configView()
+//    }
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -110,8 +122,8 @@ class BaseDetailView: BaseView {
         
         mainImageView.snp.makeConstraints {
             $0.top.equalTo(userImageView.snp.bottom).offset(16)
-            $0.horizontalEdges.equalToSuperview()
-            $0.height.equalTo(300)
+            $0.width.equalTo(contentView.snp.width)
+            $0.height.equalTo(contentView.snp.width).dividedBy(ratio)
         }
         
         infoLabel.snp.makeConstraints {
@@ -153,6 +165,7 @@ class BaseDetailView: BaseView {
         downloadStackView.snp.makeConstraints {
             $0.top.equalTo(viewCountStackView.snp.bottom).offset(14)
             $0.horizontalEdges.equalTo(viewCountStackView.snp.horizontalEdges)
+            $0.bottom.greaterThanOrEqualTo(contentView).inset(20)
         }
         
         downloadLabel.snp.makeConstraints {
@@ -162,9 +175,11 @@ class BaseDetailView: BaseView {
         downloadDetailLabel.snp.makeConstraints {
             $0.trailing.equalToSuperview()
         }
+
     }
     
     override func configView() {
+        scrollView.isScrollEnabled = true
         userNameLabel.detailLabel(text: "", size: 15, weight: .regular)
         uploadDateLabel.detailLabel(text: "", size: 13, weight: .semibold)
         infoLabel.detailLabel(text: "정보", size: 20, weight: .black)

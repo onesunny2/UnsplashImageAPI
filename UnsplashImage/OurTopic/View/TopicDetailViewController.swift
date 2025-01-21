@@ -6,11 +6,12 @@
 //
 
 import UIKit
+import SnapKit
 
 class TopicDetailViewController: UIViewController {
     
     static let id = "TopicDetailViewController"
-    private let mainView = BaseDetailView()
+    lazy var mainView = BaseDetailView(ratio: ratio)
     let networkingManager = NetworkingManager.shared
     
     var userId = ""
@@ -20,20 +21,25 @@ class TopicDetailViewController: UIViewController {
     var mainImage = ""
     var width = 0
     var height = 0
+    var ratio: CGFloat = 0
 
     override func loadView() {
+        ratio = CGFloat(width) / CGFloat(height)
+        print(ratio)
+        
         view = mainView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         view.backgroundColor = .systemBackground
         mainView.getImageUrl(user: userImage, thum: mainImage)
         mainView.userNameLabel.text = userName
         mainView.uploadDateLabel.text = uploadDate
         
         getInfoData()
+        print(mainImage)
     }
  
     func getInfoData() {
