@@ -24,6 +24,9 @@ class SearchPhotoDetailViewController: UIViewController {
     var ratio: CGFloat = 0
     
     override func loadView() {
+        ratio = CGFloat(width) / CGFloat(height)
+        print(ratio)
+        
         view = mainView
     }
 
@@ -31,8 +34,6 @@ class SearchPhotoDetailViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = .systemBackground
-        
-        ratio = CGFloat(width / height)
         
         // TODO: navigation Appearance
         
