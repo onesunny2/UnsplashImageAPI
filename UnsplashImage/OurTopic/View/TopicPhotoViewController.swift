@@ -12,21 +12,27 @@ class TopicPhotoViewController: UIViewController {
     let networkingManager = NetworkingManager.shared
     private let mainView = TopicPhotoView()
     private var threeTopics: [Topic] = []
-    private var firstList: [PhotoTopic] = [] {
-        didSet {
-            mainView.firstCollectionView.reloadData()
-        }
-    }
-    private var secondList: [PhotoTopic] = [] {
-        didSet {
-            mainView.secondCollectionView.reloadData()
-        }
-    }
-    private var thirdList: [PhotoTopic] = [] {
-        didSet {
-            mainView.thirdCollectionView.reloadData()
-        }
-    }
+    private var firstList: [PhotoTopic] = []
+//    {
+//        didSet {
+//            mainView.firstCollectionView.reloadData()
+//        }
+//    }
+    private var secondList: [PhotoTopic] = []
+//    {
+//        didSet {
+//            mainView.secondCollectionView.reloadData()
+//        }
+//    }
+    private var thirdList: [PhotoTopic] = []
+//    {
+//        didSet {
+//            mainView.thirdCollectionView.reloadData()
+//        }
+//    }
+    
+    var count = 0
+    let group = DispatchGroup()
     
     override func loadView() {
         view = mainView
@@ -60,7 +66,12 @@ class TopicPhotoViewController: UIViewController {
     func getImageData(topicQuery: String) {
         
         networkingManager.callRequest(api: .topic(topic: topicQuery)) { data in
-            guard let result = try? self.networkingManager.decoder.decode([PhotoTopic].self, from: data) else { return }
+            guard let result = try? self.networkingManager.decoder.decode([PhotoTopic].self, from: data) else {
+                // TODO: 질문하기 - 매니저 안에서 failHandler 처리를 남기면 필요없는 다른 곳에서도 사용해야 해서 여기서 처리하려고 했는데 맞는걸까요?
+                self.group.leave()
+                self.count -= 1
+                print("error", self.count)
+                return }
             
             switch topicQuery {
             case self.threeTopics[0].queryParameter:
@@ -73,6 +84,10 @@ class TopicPhotoViewController: UIViewController {
                 print("default")
                 break
             }
+            
+            self.group.leave()
+            self.count -= 1
+            print(self.count)
         }
     }
     
@@ -84,15 +99,32 @@ class TopicPhotoViewController: UIViewController {
     }
     
     func setRandomTopic() {
+        
         threeTopics = Array(Topic.allCases.shuffled().prefix(3))
         
         for index in 0...2 {
+            group.enter()
+            count += 1
+            print(count)
             getImageData(topicQuery: threeTopics[index].queryParameter)
         }
         
-        mainView.firstLabel.text = threeTopics[0].name
-        mainView.secondLabel.text = threeTopics[1].name
-        mainView.thirdLabel.text = threeTopics[2].name
+        group.notify(queue: .main) {
+
+            self.mainView.firstCollectionView.reloadData()
+            self.mainView.firstLabel.text = self.threeTopics[0].name
+            print("1 end")
+            self.mainView.secondCollectionView.reloadData()
+            self.mainView.secondLabel.text = self.threeTopics[1].name
+            print("2 end")
+            self.mainView.thirdCollectionView.reloadData()
+            self.mainView.thirdLabel.text = self.threeTopics[2].name
+            print("3 end")
+        }
+        
+        
+        
+        
     }
 
 }
@@ -123,7 +155,7 @@ extension TopicPhotoViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
+
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BaseCollectionViewCell.id, for: indexPath) as? BaseCollectionViewCell else { return UICollectionViewCell() }
         
         switch collectionView {

@@ -29,8 +29,7 @@ class BaseCollectionViewCell: UICollectionViewCell {
     }
     
     override func layoutSubviews() {
-        print(#function)
-
+  
         DispatchQueue.main.async {
             self.likeBgView.layer.cornerRadius = self.likeBgView.frame.height / 2
             self.likeBgView.clipsToBounds = true
