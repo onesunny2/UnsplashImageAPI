@@ -42,10 +42,10 @@ class SearchPhotoDetailViewController: UIViewController {
         mainView.getImageUrl(user: userImage, thum: mainImage)
         mainView.sizeDetailLabel.text = String(width.formatted()) + " x " + String(height.formatted())
 
-        getInfoData()
+        getInfoFromGeneric()
     }
     
-    func getInfoData() {
+    /* func getInfoData() {
 
         networkManager.callRequest(api: .statistics(userId: userId)) { data in
             
@@ -54,6 +54,18 @@ class SearchPhotoDetailViewController: UIViewController {
             self.mainView.viewCountDatailLabel.text = String(result.views.total.formatted())
             self.mainView.downloadDetailLabel.text = String(result.downloads.total.formatted())
         }
+    } */
+    
+    func getInfoFromGeneric() {
+        networkManager.callRequestByGeneric(type: Statistics.self, api: .statistics(userId: userId)) { result in
+            
+            self.mainView.viewCountDatailLabel.text = String(result.views.total.formatted())
+            self.mainView.downloadDetailLabel.text = String(result.downloads.total.formatted())
+            
+        } failHandler: {
+            print("호출 오류우우우우")
+        }
+
     }
 
 }

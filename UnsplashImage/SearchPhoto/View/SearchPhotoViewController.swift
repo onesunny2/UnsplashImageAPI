@@ -45,7 +45,7 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
         }
     }
 
-    func getPhotoData() {
+    /* func getPhotoData() {
         
         
    
@@ -75,6 +75,36 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
                 }
             }
         }
+    } */
+    
+    func getPhotoFromGeneric() {
+        networkManager.callRequestByGeneric(type: PhotoSearch.self, api: .search(query: keyword, page: page, sort: sort, color: colorFilter)) { result in
+            
+            self.total = result.total
+            
+            switch self.total {
+            case 0:
+                self.mainView.imageCollectionView.isHidden = true
+                self.mainView.defaultLabel.text = "검색결과가 없어요(영어만 인식해요!)"
+            default:
+                self.mainView.imageCollectionView.isHidden = false
+            }
+            
+            switch self.page {
+            case 1:
+                self.resultList = result.results
+            default:
+                if self.page <= result.total_pages {
+                    self.resultList += result.results
+                    self.isEnd = true
+                } else {
+                    break
+                }
+            }
+        } failHandler: {
+            print("호출 오류 발생 삐용")
+        }
+
     }
     
     @objc
@@ -125,7 +155,7 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
     
     func removeList() {
         resultList.removeAll()
-        getPhotoData()
+        getPhotoFromGeneric()
         scrollUp()
     }
     
@@ -146,7 +176,7 @@ extension SearchPhotoViewController: UICollectionViewDataSourcePrefetching {
         for item in indexPaths {
             if (resultList.count - 4 == item.row) && isEnd == false {
                 page += 1
-                getPhotoData()
+                getPhotoFromGeneric()
             }
             // ❔ prefetching의 특성 상 item.row가 마지막이 되기 전에 이미 감지?를 해서 원하는 딱 마지막에 alert가 안뜨는데 이 시점을 어떻게 맞출 수 있나요? (Cell for row)
             else if isEnd && (resultList.count - 1 == item.row) {
@@ -186,7 +216,7 @@ extension SearchPhotoViewController {
         switch resultList.count {
         case 0:
             keyword = text
-            getPhotoData()
+            getPhotoFromGeneric()
         default:
             page = 1
             keyword = text
