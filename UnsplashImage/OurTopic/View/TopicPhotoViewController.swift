@@ -106,6 +106,7 @@ class TopicPhotoViewController: UIViewController {
             group.enter()
             count += 1
             print(count)
+            
             getImageData(topicQuery: threeTopics[index].queryParameter)
         }
         

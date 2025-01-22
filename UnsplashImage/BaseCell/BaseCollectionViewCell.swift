@@ -56,7 +56,8 @@ extension BaseCollectionViewCell {
         contentView.addSubview(thumImage)
         
         thumImage.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.bottom.horizontalEdges.equalTo(self.safeAreaLayoutGuide)
+            $0.top.equalTo(self)
         }
         
         thumImage.contentMode = .scaleAspectFill
