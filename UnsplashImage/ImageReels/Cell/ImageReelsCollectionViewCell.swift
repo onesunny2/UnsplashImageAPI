@@ -48,7 +48,7 @@ class ImageReelsCollectionViewCell: UICollectionViewCell {
 extension ImageReelsCollectionViewCell {
     func configHierarchy() {
         [mainImageView, numberBgView, userImageView, userLabelStackView].forEach {
-            self.addSubview($0)
+            contentView.addSubview($0)
         }
         
         numberBgView.addSubview(numberLabel)
@@ -58,13 +58,14 @@ extension ImageReelsCollectionViewCell {
     
     func configLayout() {
         mainImageView.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.verticalEdges.equalTo(self)
+            $0.horizontalEdges.equalTo(contentView)
         }
         
         numberBgView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(20)
             $0.trailing.equalToSuperview().inset(16)
-            $0.leading.lessThanOrEqualToSuperview()
+            $0.width.equalTo(40)
             $0.height.equalTo(16)
         }
         

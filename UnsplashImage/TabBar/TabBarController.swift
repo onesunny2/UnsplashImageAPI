@@ -27,6 +27,8 @@ class TabBarController: UITabBarController {
         secondVc.tabBarItem.title = ""
         secondVc.tabBarItem.image = UIImage(systemName: "star")
         secondVc.tabBarItem.selectedImage = UIImage(systemName: "star.fill")
+//        secondVc.isNavigationBarHidden = true
+//        secondVc.isToolbarHidden = true
         
         let thirdVc = UINavigationController(rootViewController: SearchPhotoViewController())
         thirdVc.tabBarItem.title = ""

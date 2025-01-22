@@ -71,6 +71,8 @@ class BaseDetailView: BaseView {
 //        configView()
 //    }
     
+    
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         

@@ -20,10 +20,10 @@ class ImageReelsView: BaseView {
         
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = 0
+        layout.minimumLineSpacing = .zero
         layout.minimumInteritemSpacing = 0
         layout.itemSize = CGSize(width: cellwidth, height: cellheight)
-        layout.sectionInset = UIEdgeInsets(top: sectionInset, left: sectionInset, bottom: sectionInset, right: sectionInset)
+        layout.sectionInset = .zero
         
         return layout
     }
@@ -46,7 +46,9 @@ class ImageReelsView: BaseView {
     
     override func configLayout() {
         collectionView.snp.makeConstraints {
-            $0.edges.equalTo(self.safeAreaLayoutGuide)
+            $0.horizontalEdges.equalTo(self.safeAreaLayoutGuide)
+            $0.bottom.equalTo(self)
+            $0.top.equalTo(self)
         }
     }
     
