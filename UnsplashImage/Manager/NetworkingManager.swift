@@ -60,7 +60,7 @@ final class NetworkingManager {
                    encoding: URLEncoding(destination: .queryString),
                    headers: api.header
         ).responseDecodable(of: T.self) { response in
-            debugPrint(response)
+//            debugPrint(response)
             
             switch response.result {
             case let .success(value):
