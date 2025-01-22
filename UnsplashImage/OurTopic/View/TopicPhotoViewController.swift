@@ -13,23 +13,8 @@ class TopicPhotoViewController: UIViewController {
     private let mainView = TopicPhotoView()
     private var threeTopics: [Topic] = []
     private var firstList: [PhotoTopic] = []
-//    {
-//        didSet {
-//            mainView.firstCollectionView.reloadData()
-//        }
-//    }
     private var secondList: [PhotoTopic] = []
-//    {
-//        didSet {
-//            mainView.secondCollectionView.reloadData()
-//        }
-//    }
     private var thirdList: [PhotoTopic] = []
-//    {
-//        didSet {
-//            mainView.thirdCollectionView.reloadData()
-//        }
-//    }
     
     var count = 0
     let group = DispatchGroup()
@@ -63,7 +48,7 @@ class TopicPhotoViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
-    func getImageData(topicQuery: String) {
+    /* func getImageData(topicQuery: String) {
         
         networkingManager.callRequest(api: .topic(topic: topicQuery)) { data in
             guard let result = try? self.networkingManager.decoder.decode([PhotoTopic].self, from: data) else {
@@ -89,6 +74,33 @@ class TopicPhotoViewController: UIViewController {
             self.count -= 1
             print(self.count)
         }
+    } */
+    
+    func getImageDataFromGeneric(topicQuery: String) {
+        networkingManager.callRequestByGeneric(type: [PhotoTopic].self, api: .topic(topic: topicQuery)) { result in
+            
+            switch topicQuery {
+            case self.threeTopics[0].queryParameter:
+                self.firstList = result
+            case self.threeTopics[1].queryParameter:
+                self.secondList = result
+            case self.threeTopics[2].queryParameter:
+                self.thirdList = result
+            default:
+                print("switch-default")
+                break
+            }
+            
+            self.group.leave()
+            self.count -= 1
+            print(self.count)
+        } failHandler: {
+            print("호출에 실패했습니다.")
+            self.group.leave()
+            self.count -= 1
+            print("error", self.count)
+        }
+
     }
     
     func setNavigation() {
@@ -107,7 +119,7 @@ class TopicPhotoViewController: UIViewController {
             count += 1
             print(count)
             
-            getImageData(topicQuery: threeTopics[index].queryParameter)
+            getImageDataFromGeneric(topicQuery: threeTopics[index].queryParameter)
         }
         
         group.notify(queue: .main) {

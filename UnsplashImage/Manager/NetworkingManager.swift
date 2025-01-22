@@ -43,6 +43,34 @@ class NetworkingManager {
 
             })
     }
+    
+    func callRequestByGeneric<T: Decodable>(type: T.Type, api: UnsplashAPI, completeHandler: @escaping (T) -> (), failHandler: @escaping () -> ()) {
+        AF.request(api.endPoint,
+                   method: api.method,
+                   parameters: api.queryParameter,
+                   encoding: URLEncoding(destination: .queryString),
+                   headers: api.header
+        ).responseString { value in
+//            print(value)
+        }
+        
+        AF.request(api.endPoint,
+                   method: api.method,
+                   parameters: api.queryParameter,
+                   encoding: URLEncoding(destination: .queryString),
+                   headers: api.header
+        ).responseDecodable(of: T.self) { response in
+            debugPrint(response)
+            
+            switch response.result {
+            case let .success(value):
+                completeHandler(value)
+            case let .failure(error):
+                print("매니저 에러", error)
+                failHandler()
+            }
+        }
+    }
 }
 
 // 라우터 패턴 잊지말고 시간날 때 찾아보기

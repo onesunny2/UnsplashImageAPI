@@ -38,7 +38,8 @@ class TopicDetailViewController: UIViewController {
         mainView.userNameLabel.text = userName
         mainView.uploadDateLabel.text = uploadDate
         
-        getInfoData()
+//        getInfoData()
+        getInfoFromGeneric()
         print(mainImage)
     }
  
@@ -52,6 +53,18 @@ class TopicDetailViewController: UIViewController {
             self.mainView.downloadDetailLabel.text = String(result.downloads.total.formatted())
             self.mainView.sizeDetailLabel.text = String(self.width.formatted()) + " x " + String(self.height.formatted())
         }
+    }
+    
+    func getInfoFromGeneric() {
+        networkingManager.callRequestByGeneric(type: Statistics.self, api: .statistics(userId: userId)) { result in
+            
+            self.mainView.viewCountDatailLabel.text = String(result.views.total.formatted())
+            self.mainView.downloadDetailLabel.text = String(result.downloads.total.formatted())
+            self.mainView.sizeDetailLabel.text = String(self.width.formatted()) + " x " + String(self.height.formatted())
+        } failHandler: {
+            print("호출 실패했습니다")
+        }
+
     }
 
 }
