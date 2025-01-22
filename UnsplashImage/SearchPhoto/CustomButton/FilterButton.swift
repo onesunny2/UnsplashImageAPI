@@ -7,9 +7,9 @@
 
 import UIKit
 
-class FilterButton: UIButton {
+final class FilterButton: UIButton {
     
-    var config = UIButton.Configuration.filled()
+    private var config = UIButton.Configuration.filled()
     var filterType: Filter
     
     init() {

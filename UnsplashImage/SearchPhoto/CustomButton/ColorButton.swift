@@ -7,9 +7,9 @@
 
 import UIKit
 
-class ColorButton: UIButton {
+final class ColorButton: UIButton {
     
-    var config = UIButton.Configuration.filled()
+    private var config = UIButton.Configuration.filled()
     var colorType: Color
     
     init() {

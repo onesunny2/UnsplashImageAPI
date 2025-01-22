@@ -9,11 +9,11 @@ import UIKit
 import Kingfisher
 import SnapKit
 
-class TopicPhotoView: BaseView {
+final class TopicPhotoView: BaseView {
     
     let scrollView = UIScrollView()
     let refreshControl = UIRefreshControl()
-    let contentView = UIView()
+    private let contentView = UIView()
     let firstCollectionView: UICollectionView
     let firstLabel = UILabel()
     let secondCollectionView: UICollectionView

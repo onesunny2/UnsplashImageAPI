@@ -7,12 +7,12 @@
 
 import UIKit
 
-class SearchPhotoDetailViewController: UIViewController {
+final class SearchPhotoDetailViewController: UIViewController {
     
     static let id = "SearchPhotoDetailViewController"
     let networkManager = NetworkingManager.shared
     
-    lazy var mainView = BaseDetailView(ratio: ratio)
+    private lazy var mainView = BaseDetailView(ratio: ratio)
     
     var userId = ""
     var userImage = ""
@@ -21,7 +21,7 @@ class SearchPhotoDetailViewController: UIViewController {
     var mainImage = ""
     var width = 0
     var height = 0
-    var ratio: CGFloat = 0
+    private var ratio: CGFloat = 0
     
     override func loadView() {
         ratio = CGFloat(width) / CGFloat(height)
