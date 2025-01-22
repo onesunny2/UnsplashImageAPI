@@ -259,18 +259,8 @@ extension SearchPhotoViewController: UICollectionViewDelegate, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let row = resultList[indexPath.row]
-        
-        print(row.user.name)
-        print(row.user.profile.medium)
-        
-        let vc = SearchPhotoDetailViewController()
+        let ratio = CGFloat(row.width) / CGFloat(row.height)
+        let vc = SearchPhotoDetailViewController(photoResult: row, ratio: ratio)
         navigationController?.pushViewController(vc, animated: true)
-        vc.userId = row.id
-        vc.userImage = row.user.profile.medium
-        vc.userName = row.user.name
-        vc.uploadDate = row.uploadDate
-        vc.mainImage = row.urls.small
-        vc.width = row.width
-        vc.height = row.height
     }
 }

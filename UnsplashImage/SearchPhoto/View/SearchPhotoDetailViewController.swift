@@ -12,21 +12,26 @@ final class SearchPhotoDetailViewController: UIViewController {
     static let id = "SearchPhotoDetailViewController"
     let networkManager = NetworkingManager.shared
     
-    private lazy var mainView = BaseDetailView(ratio: ratio)
+    private var mainView: BaseDetailView
+    private var ratio: CGFloat
+    private let photoResult: PhotoResult
     
-    var userId = ""
-    var userImage = ""
-    var userName = ""
-    var uploadDate = ""
-    var mainImage = ""
-    var width = 0
-    var height = 0
-    private var ratio: CGFloat = 0
+    
+    // 🌱💛 할 수 있는데 할 수 있는건지 몰랐던 부분을 숙제로 내주신 덴님께 감사를 드립니다... :D 덕분에 이제 init으로 데이터 넘기기가 친근해졌어요
+    init(photoResult: PhotoResult, ratio: CGFloat) {
+        self.photoResult = photoResult
+        self.ratio = ratio
+        self.mainView = BaseDetailView(ratio: ratio)
+        
+        // ❔그냥 super.init()으로 실행하면 해당 화면에 진입하는 순간 앱이 터지는데, 혹시 ViewController 자체가 스토리보드에서도 구현이 가능하기 때문에 필수로 파라미터로 적어야하는건가요? 마치 required init이 스토리보드의 영향으로 무조건 넣어야하는 것 처럼요!
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
-        ratio = CGFloat(width) / CGFloat(height)
-        print(ratio)
-        
         view = mainView
     }
 
@@ -34,13 +39,11 @@ final class SearchPhotoDetailViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = .systemBackground
-        
-        // TODO: navigation Appearance
-        
-        mainView.userNameLabel.text = userName
-        mainView.uploadDateLabel.text = uploadDate.changeDate()
-        mainView.getImageUrl(user: userImage, thum: mainImage)
-        mainView.sizeDetailLabel.text = String(width.formatted()) + " x " + String(height.formatted())
+ 
+        mainView.userNameLabel.text = photoResult.user.name
+        mainView.uploadDateLabel.text = photoResult.uploadDate.changeDate()
+        mainView.getImageUrl(user: photoResult.user.profile.medium, thum: photoResult.urls.small)
+        mainView.sizeDetailLabel.text = String(photoResult.width.formatted()) + " x " + String(photoResult.height.formatted())
 
         getInfoFromGeneric()
     }
@@ -57,7 +60,7 @@ final class SearchPhotoDetailViewController: UIViewController {
     } */
     
     func getInfoFromGeneric() {
-        networkManager.callRequestByGeneric(type: Statistics.self, api: .statistics(userId: userId)) { result in
+        networkManager.callRequestByGeneric(type: Statistics.self, api: .statistics(userId: photoResult.id)) { result in
             
             self.mainView.viewCountDatailLabel.text = String(result.views.total.formatted())
             self.mainView.downloadDetailLabel.text = String(result.downloads.total.formatted())
