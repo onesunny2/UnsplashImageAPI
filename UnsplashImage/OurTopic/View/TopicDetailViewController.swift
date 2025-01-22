@@ -8,10 +8,10 @@
 import UIKit
 import SnapKit
 
-class TopicDetailViewController: UIViewController {
+final class TopicDetailViewController: UIViewController {
     
     static let id = "TopicDetailViewController"
-    lazy var mainView = BaseDetailView(ratio: ratio)
+    private lazy var mainView = BaseDetailView(ratio: ratio)
     let networkingManager = NetworkingManager.shared
     
     var userId = ""
@@ -21,7 +21,7 @@ class TopicDetailViewController: UIViewController {
     var mainImage = ""
     var width = 0
     var height = 0
-    var ratio: CGFloat = 0
+    private var ratio: CGFloat = 0
 
     override func loadView() {
         ratio = CGFloat(width) / CGFloat(height)

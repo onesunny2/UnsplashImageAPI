@@ -8,12 +8,12 @@
 import UIKit
 import Alamofire
 
-class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearchControllerDelegate {
+final class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearchControllerDelegate {
     
-    let searchController = UISearchController(searchResultsController: nil)
+    private let searchController = UISearchController(searchResultsController: nil)
     
     let networkManager = NetworkingManager.shared
-    var mainView = SearchPhotoView()
+    private var mainView = SearchPhotoView()
     
     private var total = 0
     private var keyword = ""
@@ -21,7 +21,7 @@ class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UISearch
     private var isEnd = false
     private var colorFilter = ColorButton.Color.black.query
     private var sort = FilterButton.Filter.relevant.labelText
-    var resultList: [PhotoResult] = [] {
+    private var resultList: [PhotoResult] = [] {
         didSet {
             print("resultList")
             mainView.imageCollectionView.reloadData()

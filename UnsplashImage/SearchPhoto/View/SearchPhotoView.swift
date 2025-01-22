@@ -8,11 +8,11 @@
 import UIKit
 import SnapKit
 
-class SearchPhotoView: BaseView {
+final class SearchPhotoView: BaseView {
 
     let toggle = FilterButton()
-    let scrollView = UIScrollView()
-    let stackView = UIStackView()
+    private let scrollView = UIScrollView()
+    private let stackView = UIStackView()
     var imageCollectionView: UICollectionView
     let defaultLabel = UILabel()
     var colorButton: [ColorButton] = []

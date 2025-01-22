@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TopicPhotoViewController: UIViewController {
+final class TopicPhotoViewController: UIViewController {
     
     let networkingManager = NetworkingManager.shared
     private let mainView = TopicPhotoView()
@@ -16,8 +16,8 @@ class TopicPhotoViewController: UIViewController {
     private var secondList: [PhotoTopic] = []
     private var thirdList: [PhotoTopic] = []
     
-    var count = 0
-    let group = DispatchGroup()
+    private var count = 0
+    private let group = DispatchGroup()
     
     override func loadView() {
         view = mainView

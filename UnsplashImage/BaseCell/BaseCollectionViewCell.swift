@@ -9,7 +9,7 @@ import UIKit
 import Kingfisher
 import SnapKit
 
-class BaseCollectionViewCell: UICollectionViewCell {
+final class BaseCollectionViewCell: UICollectionViewCell {
     
     static let id = "BaseCollectionViewCell"
     

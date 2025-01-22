@@ -13,13 +13,13 @@ class ImageReelsCollectionViewCell: UICollectionViewCell {
     
     static let id = "ImageReelsCollectionViewCell"
     
-    let mainImageView = UIImageView()
-    let numberBgView = UIView()
-    let numberLabel = UILabel()
-    let userImageView = UIImageView()
-    let userLabelStackView = UIStackView()
-    let usernameLabel = UILabel()
-    let postDateLabel = UILabel()
+    private let mainImageView = UIImageView()
+    private let numberBgView = UIView()
+    private let numberLabel = UILabel()
+    private let userImageView = UIImageView()
+    private let userLabelStackView = UIStackView()
+    private let usernameLabel = UILabel()
+    private let postDateLabel = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)

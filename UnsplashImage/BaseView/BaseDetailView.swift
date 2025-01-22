@@ -9,23 +9,23 @@ import UIKit
 import Kingfisher
 import SnapKit
 
-class BaseDetailView: BaseView {
+final class BaseDetailView: BaseView {
     
-    let scrollView = UIScrollView()
-    let contentView = UIView()
-    lazy var userStackView = {
+    private let scrollView = UIScrollView()
+    private let contentView = UIView()
+    private lazy var userStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .leading
         
         return stackView
     }()
-    let userImageView = UIImageView()
+    private let userImageView = UIImageView()
     let userNameLabel = UILabel()
     let uploadDateLabel = UILabel()
-    let mainImageView = UIImageView()
-    let infoLabel = UILabel()
-    let sizeStackView = {
+    private let mainImageView = UIImageView()
+    private let infoLabel = UILabel()
+    private let sizeStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         
@@ -33,7 +33,7 @@ class BaseDetailView: BaseView {
     }()
     let sizeLabel = UILabel()
     let sizeDetailLabel = UILabel()
-    let viewCountStackView = {
+    private let viewCountStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .equalSpacing
@@ -42,7 +42,7 @@ class BaseDetailView: BaseView {
     }()
     let viewCountLabel = UILabel()
     let viewCountDatailLabel = UILabel()
-    let downloadStackView = {
+    private let downloadStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         
@@ -62,16 +62,6 @@ class BaseDetailView: BaseView {
         configLayout()
         configView()
     }
-    
-//    override init(frame: CGRect) {
-//        super.init(frame: frame)
-//        
-//        configHierarchy()
-//        configLayout()
-//        configView()
-//    }
-    
-    
     
     override func layoutSubviews() {
         super.layoutSubviews()
