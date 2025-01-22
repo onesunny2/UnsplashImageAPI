@@ -23,7 +23,6 @@ final class SearchPhotoDetailViewController: UIViewController {
         self.ratio = ratio
         self.mainView = BaseDetailView(ratio: ratio)
         
-        // ❔그냥 super.init()으로 실행하면 해당 화면에 진입하는 순간 앱이 터지는데, 혹시 ViewController 자체가 스토리보드에서도 구현이 가능하기 때문에 필수로 파라미터로 적어야하는건가요? 마치 required init이 스토리보드의 영향으로 무조건 넣어야하는 것 처럼요!
         super.init(nibName: nil, bundle: nil)
     }
     

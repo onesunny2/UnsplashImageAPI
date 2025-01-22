@@ -213,41 +213,34 @@ extension TopicPhotoViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        let vc = TopicDetailViewController()
+
+        // ❔ 여기서....왜 coder로 파라미터가 뜨는걸까요
+//        let vc = TopicDetailViewController(coder: <#NSCoder#>)
         
         switch collectionView {
         case mainView.firstCollectionView:
             let row = firstList[indexPath.row]
+            let ratio = CGFloat(row.width) / CGFloat(row.height)
+            let vc = TopicDetailViewController(photoTopic: row, ratio: ratio)
             
             navigationController?.pushViewController(vc, animated: true)
-            sendDataToVC(vc: vc, row: row)
         case mainView.secondCollectionView:
             let row = secondList[indexPath.row]
+            let ratio = CGFloat(row.width) / CGFloat(row.height)
+            let vc = TopicDetailViewController(photoTopic: row, ratio: ratio)
             
             navigationController?.pushViewController(vc, animated: true)
-            sendDataToVC(vc: vc, row: row)
         case mainView.thirdCollectionView:
             let row = thirdList[indexPath.row]
+            let ratio = CGFloat(row.width) / CGFloat(row.height)
+            let vc = TopicDetailViewController(photoTopic: row, ratio: ratio)
             
             navigationController?.pushViewController(vc, animated: true)
-            sendDataToVC(vc: vc, row: row)
         default:
             print(#function, "오류")
             break
         }
     }
-    
-    func sendDataToVC(vc: TopicDetailViewController, row: PhotoTopic) {
-        vc.userId = row.id
-        vc.userImage = row.user.profile.medium
-        vc.userName = row.user.name
-        vc.uploadDate = row.uploadDate.changeDate()
-        vc.mainImage = row.urls.small
-        vc.width = row.width
-        vc.height = row.height
-    }
-    
 }
 
 extension TopicPhotoViewController: UIScrollViewDelegate {
