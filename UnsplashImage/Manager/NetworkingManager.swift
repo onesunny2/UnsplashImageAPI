@@ -44,7 +44,7 @@ final class NetworkingManager {
             })
     }
     
-    func callRequestByGeneric<T: Decodable>(type: T.Type, api: UnsplashAPI, completeHandler: @escaping (T) -> (), failHandler: @escaping () -> (), statusHandler: @escaping (Int) -> ()) {
+    func callRequestByGeneric<T: Decodable>(type: T.Type, api: UnsplashAPI, completeHandler: @escaping (T) -> (), failHandler: @escaping (APIStatus) -> ()) {
         AF.request(api.endPoint,
                    method: api.method,
                    parameters: api.queryParameter,
@@ -62,15 +62,14 @@ final class NetworkingManager {
         ).responseDecodable(of: T.self) { response in
 //            debugPrint(response)
             guard let statusCode = response.response?.statusCode else { return }
-            // ❔ 옵셔널로 초기화되는 enum은 어떻게 옵셔널 바인딩 써야하는지
-            statusHandler(statusCode)
             
             switch response.result {
             case let .success(value):
                 completeHandler(value)
             case let .failure(error):
                 print("매니저 에러", error)
-                failHandler()
+                guard let apiStatus = APIStatus(statusCode: statusCode) else { return }
+                failHandler(apiStatus)
             }
         }
     }

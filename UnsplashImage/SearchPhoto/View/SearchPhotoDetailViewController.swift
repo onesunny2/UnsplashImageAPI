@@ -64,11 +64,9 @@ final class SearchPhotoDetailViewController: UIViewController {
             self.mainView.viewCountDatailLabel.text = String(result.views.total.formatted())
             self.mainView.downloadDetailLabel.text = String(result.downloads.total.formatted())
             
-        } failHandler: {
+        } failHandler: { statusCode in
             print("호출 오류우우우우")
-        } statusHandler: { statusCode in
-            guard let message = APIStatus(statusCode: statusCode)?.alertMessage else { return }
-            self.alertMessage(code: statusCode, message: message)
+            self.alertMessage(code: statusCode.codeNumber, message: statusCode.alertMessage)
         }
 
     }

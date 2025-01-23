@@ -90,18 +90,17 @@ final class TopicPhotoViewController: UIViewController {
                 print("switch-default")
                 break
             }
-            
+  
             self.group.leave()
             self.count -= 1
             print(self.count)
-        } failHandler: {
+        } failHandler: { statusCode in
             print("호출에 실패했습니다.")
+            self.alertMessage(code: statusCode.codeNumber, message: statusCode.alertMessage)
+            
             self.group.leave()
             self.count -= 1
             print("error", self.count)
-        } statusHandler: { statusCode in
-            guard let message = APIStatus(statusCode: statusCode)?.alertMessage else { return }
-            self.alertMessage(code: statusCode, message: message)
         }
 
     }
