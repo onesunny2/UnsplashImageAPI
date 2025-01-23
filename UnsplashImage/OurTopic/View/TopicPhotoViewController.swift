@@ -99,6 +99,9 @@ final class TopicPhotoViewController: UIViewController {
             self.group.leave()
             self.count -= 1
             print("error", self.count)
+        } statusHandler: { statusCode in
+            guard let message = APIStatus(statusCode: statusCode)?.alertMessage else { return }
+            self.alertMessage(code: statusCode, message: message)
         }
 
     }

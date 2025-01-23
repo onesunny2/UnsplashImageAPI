@@ -44,7 +44,7 @@ final class NetworkingManager {
             })
     }
     
-    func callRequestByGeneric<T: Decodable>(type: T.Type, api: UnsplashAPI, completeHandler: @escaping (T) -> (), failHandler: @escaping () -> ()) {
+    func callRequestByGeneric<T: Decodable>(type: T.Type, api: UnsplashAPI, completeHandler: @escaping (T) -> (), failHandler: @escaping () -> (), statusHandler: @escaping (Int) -> ()) {
         AF.request(api.endPoint,
                    method: api.method,
                    parameters: api.queryParameter,
@@ -61,6 +61,9 @@ final class NetworkingManager {
                    headers: api.header
         ).responseDecodable(of: T.self) { response in
 //            debugPrint(response)
+            guard let statusCode = response.response?.statusCode else { return }
+            // ❔ 옵셔널로 초기화되는 enum은 어떻게 옵셔널 바인딩 써야하는지
+            statusHandler(statusCode)
             
             switch response.result {
             case let .success(value):
@@ -73,7 +76,6 @@ final class NetworkingManager {
     }
 }
 
-// 라우터 패턴 잊지말고 시간날 때 찾아보기
 extension NetworkingManager {
     
     enum UnsplashAPI {
