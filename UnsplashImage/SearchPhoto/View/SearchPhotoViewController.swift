@@ -103,8 +103,10 @@ final class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UI
             }
         } failHandler: {
             print("호출 오류 발생 삐용")
+        } statusHandler: { statusCode in
+            guard let message = APIStatus(statusCode: statusCode)?.alertMessage else { return }
+            self.alertMessage(code: statusCode, message: message)
         }
-
     }
     
     @objc
@@ -181,7 +183,6 @@ extension SearchPhotoViewController: UICollectionViewDataSourcePrefetching {
             // ❔ prefetching의 특성 상 item.row가 마지막이 되기 전에 이미 감지?를 해서 원하는 딱 마지막에 alert가 안뜨는데 이 시점을 어떻게 맞출 수 있나요? (Cell for row)
             else if isEnd && (resultList.count - 1 == item.row) {
                 print("마지막페이지")
-                alertMessage(message: "마지막 페이지입니다!")
             }
         }
     }

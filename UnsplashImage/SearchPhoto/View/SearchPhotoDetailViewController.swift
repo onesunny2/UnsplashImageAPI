@@ -66,6 +66,9 @@ final class SearchPhotoDetailViewController: UIViewController {
             
         } failHandler: {
             print("호출 오류우우우우")
+        } statusHandler: { statusCode in
+            guard let message = APIStatus(statusCode: statusCode)?.alertMessage else { return }
+            self.alertMessage(code: statusCode, message: message)
         }
 
     }

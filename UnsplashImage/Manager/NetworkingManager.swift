@@ -62,6 +62,7 @@ final class NetworkingManager {
         ).responseDecodable(of: T.self) { response in
 //            debugPrint(response)
             guard let statusCode = response.response?.statusCode else { return }
+            // ❔ 옵셔널로 초기화되는 enum은 어떻게 옵셔널 바인딩 써야하는지
             statusHandler(statusCode)
             
             switch response.result {
