@@ -62,11 +62,9 @@ final class TopicDetailViewController: UIViewController {
             self.mainView.viewCountDatailLabel.text = String(result.views.total.formatted())
             self.mainView.downloadDetailLabel.text = String(result.downloads.total.formatted())
             self.mainView.sizeDetailLabel.text = String(self.photoTopic.width.formatted()) + " x " + String(self.photoTopic.height.formatted())
-        } failHandler: {
+        } failHandler: { statusCode in
             print("호출 실패했습니다")
-        } statusHandler: { statusCode in
-            guard let message = APIStatus(statusCode: statusCode)?.alertMessage else { return }
-            self.alertMessage(code: statusCode, message: message)
+            self.alertMessage(code: statusCode.codeNumber, message: statusCode.alertMessage)
         }
 
     }

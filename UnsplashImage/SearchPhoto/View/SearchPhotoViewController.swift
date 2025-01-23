@@ -101,12 +101,16 @@ final class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UI
                     break
                 }
             }
-        } failHandler: {
+        } failHandler: { statusCode in
             print("호출 오류 발생 삐용")
-        } statusHandler: { statusCode in
-            guard let message = APIStatus(statusCode: statusCode)?.alertMessage else { return }
-            self.alertMessage(code: statusCode, message: message)
+            self.alertMessage(code: statusCode.codeNumber , message: statusCode.alertMessage)
         }
+        /*
+         statusHandler: { statusCode in
+             guard let message = APIStatus(statusCode: statusCode)?.alertMessage else { return }
+             self.alertMessage(code: statusCode, message: message)
+         }
+         */
     }
     
     @objc

@@ -7,36 +7,52 @@
 
 import Foundation
 
+// TODO: error protocol 찾아보기
 enum APIStatus {
-    case ok(message: String)
-    case badRequest(message: String)
-    case unauthorized(message: String)
-    case forbidden(message: String)
-    case notFound(message: String)
-    case networkError(message: String)
+    case ok
+    case badRequest
+    case unauthorized
+    case forbidden
+    case notFound
+    case networkError1
+    case networkError2
     
     init?(statusCode: Int) {
         switch statusCode {
-        case 200: self = .ok(message: "Connec Success")
-        case 400: self = .badRequest(message: "Bad Request")
-        case 401: self = .unauthorized(message: "Unauthorized")
-        case 403: self = .forbidden(message: "Forbidden")
-        case 404: self = .notFound(message: "Not Found")
-        case 500, 503: self = .networkError(message: "Network Error")
+        case 200: self = .ok
+        case 400: self = .badRequest
+        case 401: self = .unauthorized
+        case 403: self = .forbidden
+        case 404: self = .notFound
+        case 500: self = .networkError1
+        case 503: self = .networkError2
         default:
             print("statudCode error")
             return nil
         }
     }
     
+    var codeNumber: Int {
+        switch self {
+        case .ok: return 200
+        case .badRequest: return 400
+        case .unauthorized: return 401
+        case .forbidden: return 403
+        case .notFound: return 404
+        case .networkError1: return 500
+        case .networkError2: return 503
+        }
+    }
+    
     var alertMessage: String {
         switch self {
-        case .ok(let message): message
-        case .badRequest(let message): message
-        case .unauthorized(let message): message
-        case .forbidden(let message): message
-        case .notFound(let message): message
-        case .networkError(let message): message
+        case .ok: return "Connect Success"
+        case .badRequest: return "Bad Request"
+        case .unauthorized: return "Unauthorized"
+        case .forbidden: return "Forbidden"
+        case .notFound: return "Not Found"
+        case .networkError1: return "Network Error"
+        case .networkError2: return "Network Error"
         }
     }
 }
