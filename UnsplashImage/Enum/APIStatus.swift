@@ -9,7 +9,6 @@ import Foundation
 
 // TODO: error protocol 찾아보기
 enum APIStatus {
-    case ok
     case badRequest
     case unauthorized
     case forbidden
@@ -19,7 +18,6 @@ enum APIStatus {
     
     init?(statusCode: Int) {
         switch statusCode {
-        case 200: self = .ok
         case 400: self = .badRequest
         case 401: self = .unauthorized
         case 403: self = .forbidden
@@ -34,7 +32,6 @@ enum APIStatus {
     
     var codeNumber: Int {
         switch self {
-        case .ok: return 200
         case .badRequest: return 400
         case .unauthorized: return 401
         case .forbidden: return 403
@@ -46,7 +43,6 @@ enum APIStatus {
     
     var alertMessage: String {
         switch self {
-        case .ok: return "Connect Success"
         case .badRequest: return "Bad Request"
         case .unauthorized: return "Unauthorized"
         case .forbidden: return "Forbidden"

@@ -44,38 +44,6 @@ final class SearchPhotoViewController: UIViewController, UISearchBarDelegate, UI
             $0.addTarget(self, action: #selector(colorButtonTapped), for: .touchUpInside)
         }
     }
-
-    /* func getPhotoData() {
-        
-        
-   
-        networkManager.callRequest(api: .search(query: keyword, page: page, sort: sort, color: colorFilter)) { data in
-            
-            guard let result = try? self.networkManager.decoder.decode(PhotoSearch.self, from: data) else { return print("decoding failed") }
-
-            self.total = result.total
-            
-            switch self.total {
-            case 0:
-                self.mainView.imageCollectionView.isHidden = true
-                self.mainView.defaultLabel.text = "검색결과가 없어요(영어만 인식해요!)"
-            default:
-                self.mainView.imageCollectionView.isHidden = false
-            }
-            
-            switch self.page {
-            case 1:
-                self.resultList = result.results
-            default:
-                if self.page <= result.total_pages {
-                    self.resultList += result.results
-                    self.isEnd = true
-                } else {
-                    break
-                }
-            }
-        }
-    } */
     
     func getPhotoFromGeneric() {
         networkManager.callRequestByGeneric(type: PhotoSearch.self, api: .search(query: keyword, page: page, sort: sort, color: colorFilter)) { result in
@@ -184,7 +152,7 @@ extension SearchPhotoViewController: UICollectionViewDataSourcePrefetching {
                 page += 1
                 getPhotoFromGeneric()
             }
-            // ❔ prefetching의 특성 상 item.row가 마지막이 되기 전에 이미 감지?를 해서 원하는 딱 마지막에 alert가 안뜨는데 이 시점을 어떻게 맞출 수 있나요? (Cell for row)
+            // ❔ prefetching의 특성 상 item.row가 마지막이 되기 전에 이미 감지?를 해서 원하는 딱 마지막에 alert가 안뜨는데 이 시점을 어떻게 맞출 수 있나요? (Cell for row) - 스크롤 기반으로 해보기
             else if isEnd && (resultList.count - 1 == item.row) {
                 print("마지막페이지")
             }
@@ -265,7 +233,9 @@ extension SearchPhotoViewController: UICollectionViewDelegate, UICollectionViewD
         
         let row = resultList[indexPath.row]
         let ratio = CGFloat(row.width) / CGFloat(row.height)
-        let vc = SearchPhotoDetailViewController(photoResult: row, ratio: ratio)
+        let vc = DetailViewController(ratio: ratio)
+        vc.viewModel.data = row
+        
         navigationController?.pushViewController(vc, animated: true)
     }
 }
