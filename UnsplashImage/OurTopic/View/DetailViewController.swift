@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-final class TopicDetailViewController: UIViewController {
+final class DetailViewController: UIViewController {
     
     private let mainView: BaseDetailView
     let viewModel = DetailViewModel()
@@ -53,11 +53,11 @@ final class TopicDetailViewController: UIViewController {
             self?.mainView.downloadDetailLabel.text = text
         }
         
-        viewModel.output.statusCode.lazyBind { code in
+        viewModel.output.statusCode.lazyBind { [weak self] code in
             
             guard let code else { return }
             
-            self.alertMessage(code: code.codeNumber, message: code.alertMessage)
+            self?.alertMessage(code: code.codeNumber, message: code.alertMessage)
         }
     }
     
@@ -78,18 +78,4 @@ final class TopicDetailViewController: UIViewController {
         mainView.uploadDateLabel.text = data.uploadDate.changeDate()
         mainView.sizeDetailLabel.text = width + " x " + height
     }
-
-//    func getInfoFromGeneric() {
-//        networkingManager.callRequestByGeneric(type: Statistics.self, api: .statistics(userId: photoTopic.id)) { result in
-//            
-//            self.mainView.viewCountDatailLabel.text = String(result.views.total.formatted())
-//            self.mainView.downloadDetailLabel.text = String(result.downloads.total.formatted())
-// 
-//        } failHandler: { statusCode in
-//            print("호출 실패했습니다")
-//            self.alertMessage(code: statusCode.codeNumber, message: statusCode.alertMessage)
-//        }
-//
-//    }
-
 }

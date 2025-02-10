@@ -220,21 +220,21 @@ extension TopicPhotoViewController: UICollectionViewDelegate, UICollectionViewDa
         case mainView.firstCollectionView:
             let row = firstList[indexPath.row]
             let ratio = CGFloat(row.width) / CGFloat(row.height)
-            let vc = TopicDetailViewController(ratio: ratio)
+            let vc = DetailViewController(ratio: ratio)
             vc.viewModel.data = row
             
             navigationController?.pushViewController(vc, animated: true)
         case mainView.secondCollectionView:
             let row = secondList[indexPath.row]
             let ratio = CGFloat(row.width) / CGFloat(row.height)
-            let vc = TopicDetailViewController(ratio: ratio)
+            let vc = DetailViewController(ratio: ratio)
             vc.viewModel.data = row
             
             navigationController?.pushViewController(vc, animated: true)
         case mainView.thirdCollectionView:
             let row = thirdList[indexPath.row]
             let ratio = CGFloat(row.width) / CGFloat(row.height)
-            let vc = TopicDetailViewController(ratio: ratio)
+            let vc = DetailViewController(ratio: ratio)
             vc.viewModel.data = row
             
             navigationController?.pushViewController(vc, animated: true)
