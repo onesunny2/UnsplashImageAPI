@@ -10,15 +10,12 @@ import SnapKit
 
 final class TopicDetailViewController: UIViewController {
     
-    static let id = "TopicDetailViewController"
     private let mainView: BaseDetailView
-    let networkingManager = NetworkingManager.shared
+    let viewModel = DetailViewModel()
     
     private var ratio: CGFloat
-    private let photoTopic: PhotoTopic
     
-    init(photoTopic: PhotoTopic, ratio: CGFloat) {
-        self.photoTopic = photoTopic
+    init(ratio: CGFloat) {
         self.ratio = ratio
         self.mainView = BaseDetailView(ratio: ratio)
         super.init(nibName: nil, bundle: nil)
@@ -37,24 +34,62 @@ final class TopicDetailViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
-        mainView.getImageUrl(user: photoTopic.user.profile.medium, thum: photoTopic.urls.small)
-        mainView.userNameLabel.text = photoTopic.user.name
-        mainView.uploadDateLabel.text = photoTopic.uploadDate
-
-        getInfoFromGeneric()
+        configView()
+        bindVMData()
+        
+        viewModel.input.callRequest.value = ()
     }
-
-    func getInfoFromGeneric() {
-        networkingManager.callRequestByGeneric(type: Statistics.self, api: .statistics(userId: photoTopic.id)) { result in
+    
+    deinit {
+        print("토픽 VC Deinit")
+    }
+    
+    private func bindVMData() {
+        viewModel.output.countText.bind { [weak self] text in
+            self?.mainView.viewCountDatailLabel.text = text
+        }
+        
+        viewModel.output.downloadText.bind { [weak self] text in
+            self?.mainView.downloadDetailLabel.text = text
+        }
+        
+        viewModel.output.statusCode.lazyBind { code in
             
-            self.mainView.viewCountDatailLabel.text = String(result.views.total.formatted())
-            self.mainView.downloadDetailLabel.text = String(result.downloads.total.formatted())
-            self.mainView.sizeDetailLabel.text = String(self.photoTopic.width.formatted()) + " x " + String(self.photoTopic.height.formatted())
-        } failHandler: { statusCode in
-            print("호출 실패했습니다")
-            self.alertMessage(code: statusCode.codeNumber, message: statusCode.alertMessage)
+            guard let code else { return }
+            
+            self.alertMessage(code: code.codeNumber, message: code.alertMessage)
+        }
+    }
+    
+    private func configView() {
+        
+        guard let data = viewModel.data else {
+            
+            mainView.getImageUrl(user: viewModel.defaultImage, thum: viewModel.defaultImage)
+            
+            return
         }
 
+        let width = data.width.formatted()
+        let height = data.height.formatted()
+        
+        mainView.getImageUrl(user: data.user.profile.medium, thum: data.urls.small)
+        mainView.userNameLabel.text = data.user.name
+        mainView.uploadDateLabel.text = data.uploadDate.changeDate()
+        mainView.sizeDetailLabel.text = width + " x " + height
     }
+
+//    func getInfoFromGeneric() {
+//        networkingManager.callRequestByGeneric(type: Statistics.self, api: .statistics(userId: photoTopic.id)) { result in
+//            
+//            self.mainView.viewCountDatailLabel.text = String(result.views.total.formatted())
+//            self.mainView.downloadDetailLabel.text = String(result.downloads.total.formatted())
+// 
+//        } failHandler: { statusCode in
+//            print("호출 실패했습니다")
+//            self.alertMessage(code: statusCode.codeNumber, message: statusCode.alertMessage)
+//        }
+//
+//    }
 
 }

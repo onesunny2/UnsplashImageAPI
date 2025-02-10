@@ -12,9 +12,9 @@ final class TopicPhotoViewController: UIViewController {
     let networkingManager = NetworkingManager.shared
     private let mainView = TopicPhotoView()
     private var threeTopics: [Topic] = []
-    private var firstList: [PhotoTopic] = []
-    private var secondList: [PhotoTopic] = []
-    private var thirdList: [PhotoTopic] = []
+    private var firstList: [PhotoResult] = []
+    private var secondList: [PhotoResult] = []
+    private var thirdList: [PhotoResult] = []
     
     private var count = 0
     private let group = DispatchGroup()
@@ -77,7 +77,7 @@ final class TopicPhotoViewController: UIViewController {
     } */
     
     func getImageDataFromGeneric(topicQuery: String) {
-        networkingManager.callRequestByGeneric(type: [PhotoTopic].self, api: .topic(topic: topicQuery)) { result in
+        networkingManager.callRequestByGeneric(type: [PhotoResult].self, api: .topic(topic: topicQuery)) { result in
             
             switch topicQuery {
             case self.threeTopics[0].queryParameter:
@@ -220,19 +220,22 @@ extension TopicPhotoViewController: UICollectionViewDelegate, UICollectionViewDa
         case mainView.firstCollectionView:
             let row = firstList[indexPath.row]
             let ratio = CGFloat(row.width) / CGFloat(row.height)
-            let vc = TopicDetailViewController(photoTopic: row, ratio: ratio)
+            let vc = TopicDetailViewController(ratio: ratio)
+            vc.viewModel.data = row
             
             navigationController?.pushViewController(vc, animated: true)
         case mainView.secondCollectionView:
             let row = secondList[indexPath.row]
             let ratio = CGFloat(row.width) / CGFloat(row.height)
-            let vc = TopicDetailViewController(photoTopic: row, ratio: ratio)
+            let vc = TopicDetailViewController(ratio: ratio)
+            vc.viewModel.data = row
             
             navigationController?.pushViewController(vc, animated: true)
         case mainView.thirdCollectionView:
             let row = thirdList[indexPath.row]
             let ratio = CGFloat(row.width) / CGFloat(row.height)
-            let vc = TopicDetailViewController(photoTopic: row, ratio: ratio)
+            let vc = TopicDetailViewController(ratio: ratio)
+            vc.viewModel.data = row
             
             navigationController?.pushViewController(vc, animated: true)
         default:
