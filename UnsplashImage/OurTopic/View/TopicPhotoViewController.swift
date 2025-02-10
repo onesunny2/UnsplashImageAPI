@@ -215,9 +215,6 @@ extension TopicPhotoViewController: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
-        // ❔ 여기서....왜 coder로 파라미터가 뜨는걸까요
-//        let vc = TopicDetailViewController(coder: <#NSCoder#>)
         
         switch collectionView {
         case mainView.firstCollectionView:

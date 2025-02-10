@@ -184,7 +184,7 @@ extension SearchPhotoViewController: UICollectionViewDataSourcePrefetching {
                 page += 1
                 getPhotoFromGeneric()
             }
-            // ❔ prefetching의 특성 상 item.row가 마지막이 되기 전에 이미 감지?를 해서 원하는 딱 마지막에 alert가 안뜨는데 이 시점을 어떻게 맞출 수 있나요? (Cell for row)
+            // ❔ prefetching의 특성 상 item.row가 마지막이 되기 전에 이미 감지?를 해서 원하는 딱 마지막에 alert가 안뜨는데 이 시점을 어떻게 맞출 수 있나요? (Cell for row) - 스크롤 기반으로 해보기
             else if isEnd && (resultList.count - 1 == item.row) {
                 print("마지막페이지")
             }
